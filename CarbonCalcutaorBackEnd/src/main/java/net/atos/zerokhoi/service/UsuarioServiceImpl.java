@@ -28,8 +28,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	@Transactional
-	public Usuario save(Usuario cliente) {
-		return usuarioDao.save(cliente);
+	public Usuario save(Usuario usuario) {
+		return usuarioDao.save(usuario);
 	}
 
 	@Override
@@ -37,6 +37,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void delete(Long id) {
 		usuarioDao.deleteById(id);
 
+	}
+
+	@Override
+	public Usuario findByEmail(String email) {
+		return usuarioDao.findByEmail(email);
 	}
 
 }

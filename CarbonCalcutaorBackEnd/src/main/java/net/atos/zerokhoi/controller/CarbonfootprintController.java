@@ -16,18 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-@CrossOrigin(origins = {"http://localhost:4200/"})
+@CrossOrigin(origins = {"http://localhost:4200/","https://localhost:4200/"})
 @RestController
 @RequestMapping("/carbonfootprint")
 public class CarbonfootprintController {
 	private final RestTemplate restTemplate;
+	
 	@Autowired
 	public CarbonfootprintController(RestTemplate restTemplate) {		
 		this.restTemplate = restTemplate;
 	}
 	
 	@GetMapping(value = "/cocheshuella")
-	private  ResponseEntity<?> getHelloClient( @RequestParam("distance")String distance, @RequestParam("vehicle")String vehicle) {
+	private  ResponseEntity<?> getCochesHuella( @RequestParam("distance")String distance, @RequestParam("vehicle")String vehicle) {
 		
 		String uri = "https://carbonfootprint1.p.rapidapi.com/CarbonFootprintFromCarTravel?distance="+distance+"&vehicle="+vehicle;
 		 //Set the headers you need send
@@ -36,8 +37,57 @@ public class CarbonfootprintController {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         // example of custom header
         headers.set( "X-RapidAPI-Host","carbonfootprint1.p.rapidapi.com");
-        headers.set( "X-RapidAPI-Key", "d67089acf9msh2c9d7f69329b7e8p1cd044jsn24b15e1cf32d");
+
+        //headers.set( "X-RapidAPI-Key", "2ef8e71aedmshb5c9e4fb4992e53p144fc7jsn7a6e0982b183");
+
+        headers.set( "X-RapidAPI-Key", "fcd761cceemshbdfe732596ea8a8p18bb03jsn734bb32cb293");
+       // bd3ed9f383mshad347e2419e9e87p12c23ejsnd57f22376f25  //mia bd3ed9f383mshad347e2419e9e87p12c23ejsnd57f22376f25
+
        
+        //Create a new HttpEntity
+        final HttpEntity<String> entity = new HttpEntity<String>(headers);		
+		//Long result = restTemplate.getForObject(uri, Long.class);
+        ResponseEntity<Map> response = restTemplate.exchange(uri, HttpMethod.GET, entity, Map.class);        
+        
+		return  response;
+	}
+	
+	@GetMapping(value = "/transpublihuella")
+	private  ResponseEntity<?> getTransPubliHuella( @RequestParam("distance")String distance, @RequestParam("type")String type) {
+		
+		String uri = "https://carbonfootprint1.p.rapidapi.com/CarbonFootprintFromPublicTransit?distance="+distance+"&type="+type;
+//Set the headers you need send
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "application/json");
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        // example of custom header
+        headers.set( "X-RapidAPI-Host","carbonfootprint1.p.rapidapi.com");
+
+        headers.set( "X-RapidAPI-Key", "fcd761cceemshbdfe732596ea8a8p18bb03jsn734bb32cb293");
+
+        //Create a new HttpEntity
+        final HttpEntity<String> entity = new HttpEntity<String>(headers);		
+		//Long result = restTemplate.getForObject(uri, Long.class);
+        ResponseEntity<Map> response = restTemplate.exchange(uri, HttpMethod.GET, entity, Map.class);        
+        
+		return  response;
+	}
+  
+  
+	@GetMapping(value = "/motoshuella")
+	private  ResponseEntity<?> getHuellaMoto( @RequestParam("type")String type, @RequestParam("distance")String distance) {
+		
+		String uri = "https://carbonfootprint1.p.rapidapi.com/CarbonFootprintFromMotorBike?type="+type+"&distance="+distance;
+
+		 //Set the headers you need send
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "application/json");
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        // example of custom header
+        headers.set( "X-RapidAPI-Host","carbonfootprint1.p.rapidapi.com");
+
+        headers.set( "X-RapidAPI-Key", "fcd761cceemshbdfe732596ea8a8p18bb03jsn734bb32cb293");
+
         //Create a new HttpEntity
         final HttpEntity<String> entity = new HttpEntity<String>(headers);		
 		//Long result = restTemplate.getForObject(uri, Long.class);

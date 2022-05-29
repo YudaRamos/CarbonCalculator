@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import net.atos.zerokhoi.dto.DataElectricidad;
-
+import net.atos.zerokhoi.dto.HuellaElectricidad;
+@CrossOrigin(origins = {"http://localhost:4200/","https://localhost:4200/"})
 @RestController
 @RequestMapping("/carbon")
 public class CarbonInterfaceController {
@@ -26,7 +28,7 @@ public class CarbonInterfaceController {
 	}
 
 	@PostMapping(value = "/huella")
-	private ResponseEntity<?> obtenerHuella(@RequestBody DataElectricidad data) {
+	private Integer obtenerHuella(@RequestBody DataElectricidad data) {
 		
 		String uri = "https://www.carboninterface.com/api/v1/estimates";		
 		UriComponentsBuilder builderUrl = UriComponentsBuilder.fromHttpUrl(uri);
@@ -37,8 +39,10 @@ public class CarbonInterfaceController {
 		
 		final HttpEntity<DataElectricidad> entity = new HttpEntity<>(data, headers);
 		
-		ResponseEntity<String> result= restTemplate.exchange(builderUrl.build().encode().toUri(),
-				HttpMethod.POST, entity, String.class);
-		return result;
+		ResponseEntity<HuellaElectricidad> result= restTemplate.exchange(builderUrl.build().encode().toUri(),
+				HttpMethod.POST, entity, HuellaElectricidad.class);
+		
+		return result.getBody().getData().getAttributes().getCarbon_kg();
+		
 	}
 }

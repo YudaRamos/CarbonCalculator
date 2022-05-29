@@ -3,10 +3,10 @@ package net.atos.zerokhoi.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.atos.zerokhoi.entity.Usuario;
-
+import net.atos.zerokhoi.entity.Actividad;
 
 @Repository
-public interface UsuarioDao extends JpaRepository<Usuario,Long>{
-	public abstract Usuario findByEmail(String email);
+public interface ActividadDao extends JpaRepository<Actividad,Long>{
+
 }
+
