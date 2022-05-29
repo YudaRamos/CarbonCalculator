@@ -6,10 +6,12 @@ import java.util.List;
 
 import lombok.Data;
 @Data
-public class TravelFlights implements Serializable{
+public class TravelCar implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6199159449536137244L;
-	private ArrayList<Legs> legs;
+	private String distance;
+	private String vehicle;
+	
 }
