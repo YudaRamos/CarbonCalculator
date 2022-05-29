@@ -28,7 +28,7 @@ public class CarbonInterfaceController {
 	}
 
 	@PostMapping(value = "/huella")
-	private Integer obtenerHuella(@RequestBody DataElectricidad data) {
+	private Double obtenerHuella(@RequestBody DataElectricidad data) {
 		
 		String uri = "https://www.carboninterface.com/api/v1/estimates";		
 		UriComponentsBuilder builderUrl = UriComponentsBuilder.fromHttpUrl(uri);

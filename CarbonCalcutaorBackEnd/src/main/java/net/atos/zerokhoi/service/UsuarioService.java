@@ -9,10 +9,9 @@ public interface UsuarioService {
 	public List<Usuario> findAll();
 
 	public Usuario findById(Long id);
-	
 	public Usuario findByEmail(String email);
 
-	public Usuario save(Usuario usuario);
+	public Usuario save(Usuario cliente);
 
 	public void delete(Long id);
 

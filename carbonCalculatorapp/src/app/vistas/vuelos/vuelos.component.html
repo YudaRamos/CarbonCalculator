@@ -1,0 +1,112 @@
+<div class= "card border-primary text-center ">
+  <div class="card-header bg-dark text-white"> {{titulo}}</div>
+  <div class="card-body">
+    <!--la directiva ngSubmit indica que pasara cdo demos al boton crear-->
+    <!--<form (ngSubmit)= "create()">-->
+    <form #vuelosForm="ngForm" >
+      <div class="form-group row">
+        <label for="origen" class="col-form-label  col-lg-2 col-sm-12">Origen</label>
+        <div class="col-lg-6 col-sm-12">
+          <!--con ngModel hacemos el Binding = Poblar/Enlazar  y es bidirecional-->
+          <input type="text"  class = "form-control" name="origen" [(ngModel)]="tramo.from" required minlength ="4" #origen= "ngModel">
+          <!--mostramos un mensaje de alerta cdo  no cumpla el validador
+          <div class= "alert alert-danger" *ngIf="origen.invalid && (origen.dirty || origen.touched )">
+          required minlength="4" #nombre="ngModel"
+            <div *ngIf="origen.errors.required">
+            Origen es un campo requerido
+            </div>
+            <div *ngIf="origen.errors.minlength">
+            El campo Origen debe tener mínimo 4 caracteres
+            </div>
+          </div>-->
+
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="destino" class="col-form-label col-lg-2 col-sm-12">Destino</label>
+        <div class="col-lg-6 col-sm-12">
+          <input type="text"  class = "form-control" name="destino" [(ngModel)]="tramo.to"  #destino= "ngModel">
+
+          <!--required
+          <div class= "alert alert-danger" *ngIf="destino.invalid && (destino.dirty || destino.touched )">
+            <div *ngIf="destino.errors.required">
+            Destino es un campo requerido
+            </div>
+          </div>-->
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="pasajeros" class="col-form-label col-lg-2 col-sm-12">Pasajeros</label>
+        <div class="col-lg-6 col-sm-12">
+          <input type="text"  class = "form-control" name="pasajeros" [(ngModel)]="tramo.passengers" #pasajeros= "ngModel" >
+        <!--required  email
+          <div class= "alert alert-danger" *ngIf="pasajeros.invalid && (pasajeros.dirty || pasajeros.touched )">
+            <div *ngIf="pasajeros.errors.required">
+            Pasajeros es un campo requerido
+            </div>
+            <div *ngIf="email.errors.email">
+            El campo Pasajeros debe tener un formato correcto
+            </div>
+          </div>-->
+        </div>
+      </div>
+
+      <div class="form-group row">
+
+
+        <div class="col-sm-12 ">  <button role="button" class="btn btn-info float-right" (click)='addTramo()' >Añadir tramo</button></div>
+        </div>
+
+
+
+      <div class="form-group row">
+
+
+   <div *ngIf= "tramos?.length == 0" class="col-sm-12 alert alert-dark" role="alert">
+    No hay ningún tramo añadido
+  </div>
+  <table class="table table-bordered table-striped" *ngIf ="tramos?.length>0">
+    <thead>
+      <tr>
+        <th>Origen</th>
+        <th>Destino</th>
+        <th>Pasajeros</th>
+
+        <th>  Accion  </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tramo of tramos">
+        <td>{{tramo.from}}</td>
+        <td>{{tramo.to}}</td>
+        <td>{{tramo.passengers}}</td>
+
+        <td>
+          <button class="btn btn-rounded btn-danger" name ="eliminar" type="button" >
+          Eliminar
+          </button>
+        </td>
+    </tr>
+    </tbody>
+  </table>
+      </div>
+
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+        <button role="button" class="btn btn-info float-right" (click)='calcularVuelos()' >Calcular huella</button>
+        <ng-template #elseBlock>
+          <!--mientras sea inválido algún campo del form se desabilitan los botones
+          *ngIf="!tramo.origen else elseBlock" [disabled]="!vuelosForm.form.valid"
+          <button role="button" class="btn btn-info" (click)='update()' [disabled]="!vuelosForm.form.valid">Editar</button>-->
+        </ng-template >
+        </div>
+      </div>
+
+
+    </form>
+
+</div>
+</div>
