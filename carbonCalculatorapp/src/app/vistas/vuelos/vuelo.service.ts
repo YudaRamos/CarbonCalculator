@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import{ViajeAvion} from './modelo/viaje.avion';
+import { Tramo } from './modelo/tramo';
 import{Huella} from './modelo/huella.calculada';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router} from '@angular/router';
 import {Observable, throwError,tap} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import swal from 'sweetalert2';
-
+import { Actividad } from '../bitacora/modelos/actividadTPrivado';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VueloService {
   private urlEndPoint:string ='http://localhost:8080/climatic/huella';
+  private urlEndPointActividad:string ='http://localhost:8080/api/actividades';
   private httpHeaders = new HttpHeaders({'Content-Type':'application/json'})
 
   constructor(private http:HttpClient, private router: Router ) { }
@@ -24,7 +26,7 @@ export class VueloService {
     return true;
   }
   return false;
-}
+  }
 
   calcularHuella(viaje:ViajeAvion): Observable<Huella>{
   return this.http.post(this.urlEndPoint,viaje, {headers: this.httpHeaders}).pipe(
@@ -46,6 +48,14 @@ export class VueloService {
         return throwError(e);
       })
   );
-}
+  }
+
+  //Para añadir nuestra activdad a nuestro array
+  create(actividad: Actividad): Observable<Actividad>{
+    return this.http.post(this.urlEndPointActividad, actividad, {headers: this.httpHeaders}).pipe(
+    map((response: any) => response.actividad as Actividad)
+    );
+  }
+
 
 }

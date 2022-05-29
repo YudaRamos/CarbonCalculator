@@ -5,6 +5,6 @@ export class Tramo{
  to: string;
  passengers:number;
 
-  constructor() { }
+
 
 }

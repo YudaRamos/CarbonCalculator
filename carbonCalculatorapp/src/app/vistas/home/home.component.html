@@ -1,1 +1,32 @@
-<h1>{{title}}!</h1>
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+
+<body class="overflow-hidden">
+<h1 class="text-center mt-5">{{title}}!</h1>
+
+
+
+<button type="button" class="bt1 rounded bg-dark" [routerLink]="['/registro']">REGISTRO</button>
+<button type="button" class="bt2 rounded bg-dark" [routerLink]="['/soluciones']">CONSEJOS ÚTILES</button>
+<div class="container-lg p-5 mt-5" id="curiosidades">
+<div class="sabias animate__animated animate__backInRight">¿Sabias qué?</div>
+  
+<p-carousel [value]="curiosidades" [circular]="true">
+  <ng-template let-car pTemplate="item" >
+    <ng-container>
+    <p class="carousel">
+    {{textoAleatorio()}}
+    </p>
+  </ng-container>
+  </ng-template>
+</p-carousel>
+
+    
+</div>
+
+
+</body>

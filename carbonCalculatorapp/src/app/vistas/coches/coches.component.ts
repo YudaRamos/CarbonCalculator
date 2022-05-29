@@ -6,6 +6,10 @@ import { ViajeCoche } from './modelo/viaje.coche';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CocheService } from './coche.service';
 import swal from 'sweetalert2'
+import { ViajeMoto } from './modelo/viaje.moto';
+import { DatePipe } from '@angular/common';
+import { Actividad } from '../bitacora/modelos/actividadTPrivado';
+
 @Component({
   selector: 'app-coches',
   templateUrl: './coches.component.html',
@@ -21,57 +25,68 @@ export class CochesComponent implements OnInit {
   moto: boolean = false;
   distancia: number = 0;
   viaje: ViajeCoche = new ViajeCoche();
+  viajeMoto: ViajeMoto = new ViajeMoto();
   tipo: string;
+  combustible: Combustible = new Combustible();
+  size: SizeCar = new SizeCar();
+  today: Date = new Date();
+  pipe = new DatePipe('en-EN');
+  todayWithPipe = null;
+  actividad: Actividad = new Actividad();
+
+
 
   combustibles =
     [
       { name: 'Diesel', code: 'Diesel' },
-      { name: 'Petróleo', code: 'Petrol' },
+      { name: 'Gasolina', code: 'Petrol' },
       { name: 'Híbrido', code: 'Hybrid' },
       { name: 'GNC', code: 'CNG' },
       { name: 'LPG', code: 'LPG' }
     ];
+
+
+  sizesCar =
+    [
+      { name: 'Segmento A', code: 'Small' },
+      { name: 'Segmento B,C,D,E', code: 'Medium' },
+      { name: 'Segmento F, SUV,Todoterreno', code: 'Large' }
+    ];
+
+
+  sizesHib =
+    [
+      { name: 'Segmento F, SUV,Todoterreno', code: 'Large' },
+      { name: 'Segmento B,C,D,E', code: 'Medium' }
+
+    ];
+
   combustiblesV =
     [
       { name: 'Diesel', code: 'Diesel' },
-      { name: 'Petróleo', code: 'Petrol' },
-      { name: 'GNC', code: 'CNG' },
-      { name: 'LPG', code: 'LPG' }
-    ];
-  sizes =
-    [
-      { name: 'Pequeño', code: 'Small' },
-        { name: 'Mediano', code: 'Medium' },
-      { name: 'Grande', code: 'Large' }
-
+      { name: 'Gasolina', code: 'Petrol' }
 
     ];
-  sizesAll =
-    [
-      { name: 'Pequeño', code: 'Small' },
-        { name: 'Mediano', code: 'Medium' },
-      { name: 'Grande', code: 'Large' }
 
-    ];
+
   sizesVan =
     [
-      { name: 'Grande', code: 'Large' },
-      { name: 'Pequeño', code: 'Small' }
+      { name: 'Segmento F, SUV,Todoterreno', code: 'Large' },
+      { name: 'Segmento A', code: 'Small' }
 
     ];
 
-  sizesLarge =
+  sizesMoto =
     [
-      { name: 'Grande', code: 'Large' },
-      { name: 'Mediano', code: 'Medium' }
+      { name: ' 50 centímetros cúbicos', code: 'Small' },
+      { name: ' 125 centímetros cúbicos', code: 'Small' },
+      { name: ' 250 centímetros cúbicos', code: 'Medium' },
+      { name: ' 300 centímetros cúbicos', code: 'Medium' },
+      { name: ' 500 centímetros cúbicos', code: 'Medium' },
+      { name: '1000 centímetros cúbicos o más', code: 'Large' }
 
     ];
 
-  form = new FormGroup({
-    combustible: new FormControl(this.combustibles[5]),
-    size: new FormControl(this.sizesAll[3]),
-    distancia: new FormControl(this.distancia)
-  });
 
 
 
@@ -84,62 +99,9 @@ export class CochesComponent implements OnInit {
   }
 
 
-  get f() {
-    return this.form.controls;
-  }
   ngOnInit(): void {
   }
-  //metodo para turismo
-  actualizarTipoVeh() {
 
-    console.log(this.form.value);
-    switch (this.form.value.combustible.code) {
-      case 'Diesel':
-      case 'Petrol': {
-        this.sizesAll = this.sizes;
-        break;
-      }
-      case 'Hybrid':
-      case 'LPG':
-      case 'CNG': {
-        this.sizesAll = this.sizesLarge;
-        break;
-      }
-      case 'LPG':
-      case 'CNG': {
-        this.sizesAll = this.sizesLarge;
-        break;
-      }
-
-      default: {
-        this.sizesAll = this.sizesAll;
-        break;
-      }
-    }
-
-  }
-  //metodo para turismo
-  actualizarTipoVans() {
-
-    console.log(this.form.value);
-    switch (this.form.value.combustible.code) {
-      case 'Diesel':
-        {
-          this.sizesAll = this.sizes;
-          break;
-        }
-      case 'Petrol': {
-        this.sizesAll = this.sizesVan;
-        break;
-      }
-      default: {
-        console.log('entre en default');
-        this.sizesAll = [];
-        break;
-      }
-    }
-
-  }
 
 
   //mostramos el formulario según el tipo de vehiculo
@@ -175,20 +137,68 @@ export class CochesComponent implements OnInit {
 
   }
   public calcularCoches(): void {
+    //si es un turismo enviamos combutible+tamaño
+    if (this.turismo) {
+      this.viaje.vehicle = this.viaje.size + this.viaje.combustible + this.tipo;
+      console.log(this.viaje.vehicle);
+    }
+    //si es una van y de GNC o LPG no enviamos el tamaño del vehículo
+    if (this.van) {
+      if (this.viaje.combustible == "CNG" || this.viaje.combustible == "LPG") {
+        this.viaje.vehicle = this.viaje.combustible + this.tipo;
 
-    this.viaje.vehicle = this.form.value.size.code + this.form.value.combustible.code+  this.tipo;
+      } else {
+        this.viaje.vehicle = this.viaje.size + this.viaje.combustible + this.tipo;
+      }
+    }
+
+    if (this.moto) {
+      this.calcularMotos();
+      return;
+    }
+
     console.log(this.viaje.vehicle);
-    this.viaje.distance = this.form.value.distancia;
     console.log(this.viaje.distance);
+    console.log(this.distancia);
+
+
     this.cocheService.calcularHuella(this.viaje)
       .subscribe(huella => {
         //    this.router.navigate(['/vuelos'])
         console.log(huella.carbonEquivalent);
-        swal.fire('Huella generada', `La huella generada ha sido de ${huella.carbonEquivalent}`, 'success')
+        this.actividad.consumo = huella.carbonEquivalent;
+        swal.fire('Huella generada', `La huella generada ha sido de ${huella.carbonEquivalent} Kg`, 'success')
       }
       );
   }
 
+
+  public calcularMotos(): void {
+
+    this.viajeMoto.type = this.viajeMoto.size + this.tipo;
+    console.log(this.viajeMoto.type);
+
+    console.log(this.viajeMoto.distance);
+    this.cocheService.calcularHuellaMotos(this.viajeMoto)
+      .subscribe(huella => {
+        //this.router.navigate(['/vuelos'])
+        this.actividad.consumo = huella.carbonEquivalent;
+        console.log(huella.carbonEquivalent);
+        swal.fire('Huella generada', `La huella generada ha sido de ${huella.carbonEquivalent} Kg`, 'success')
+      }
+      );
+  }
+
+
+  public anadir(): void{
+    this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
+    this.actividad.fecha = this.todayWithPipe;
+    this.actividad.categoria = "Transporte Privado";
+    console.log(this.actividad);
+    this.cocheService.create(this.actividad).subscribe();
+    swal.fire('','Actividad añadida correctamente', 'success')
+
+  }
 
 
 

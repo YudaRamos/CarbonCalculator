@@ -1,175 +1,172 @@
-<div class="card border-primary text-center ">
+<div style="margin-top: 3%;" class="card border-primary text-center ">
   <div class="card-header bg-dark text-white"> {{titulo}}</div>
   <div class="card-body">
 
 
     <div class="container">
 
-      <form [formGroup]="form">
-
-
+      <form #cochesForm="ngForm">
         <div class="form-group row">
 
           <div class="col-lg-4 col-sm-12">
             <div class="card" style="width: 18rem;">
-              <img src={{ImagePath}} class="card-img-top" alt="..." style="width:300px;height: 250px;">
+             <button role="button" class="btn btn-info float-right"
+                    (click)='showForm("turismo")' >
+              <img src={{ImagePath}} class="card-img-top" alt="..." style="width:280px;height: 250px;">
               <div class="card-body">
                 <h5 class="card-title">TURISMO</h5>
                 <p class="card-text">Calcular la huella de tu TURISMO.</p>
 
-
-                <div class="col-sm-12 "> <button role="button" class="btn btn-info float-right" (click)='showForm("turismo")'>Añadir datos</button>
-                </div>
-
               </div>
+            </button>
             </div>
           </div>
+
           <div class="col-lg-4 col-sm-12">
             <div class="col-lg-4 col-sm-12">
               <div class="card" style="width: 18rem;">
-                <img src={{vans}} class="card-img-top" alt="..." style="width:300px;height: 250px;">
+                <button role="button" class="btn btn-info float-right"
+                      (click)='showForm("van")'>
+                <img src={{vans}} class="card-img-top" alt="..." style="width:280px;height: 250px;">
                 <div class="card-body">
                   <h5 class="card-title">VAN</h5>
                   <p class="card-text">Calcular la huella de tu VANS.</p>
-
-
-                  <div class="col-sm-12 "> <button role="button" class="btn btn-info float-right" (click)='showForm("van")'>Añadir datos</button>
                   </div>
-
+                </button>
                 </div>
               </div>
             </div>
-          </div>
+
           <div class="col-lg-4 col-sm-12">
             <div class="col-lg-4 col-sm-12">
               <div class="card" style="width: 18rem;">
-                <img src={{motobike}} class="card-img-top" alt="..." style="width:300px;height: 250px;">
+                <button role="button" class="btn btn-info float-right"
+                      (click)='showForm("moto")'>
+                <img src={{motobike}} class="card-img-top" alt="..." style="width:280px;height: 250px;">
                 <div class="card-body">
                   <h5 class="card-title">MOTO</h5>
                   <p class="card-text">Calcular la huella de tu MOTO.</p>
-
-
-                  <div class="col-sm-12 "> <button role="button" class="btn btn-info float-right" (click)='showForm("moto")'>Añadir datos</button>
                   </div>
-
+                </button>
                 </div>
               </div>
             </div>
           </div>
 
+        <div *ngIf="turismo || van">
+
+          <div class="grid p-fluid">
+            <div class="field col-12 md:col-3">
+              <label for="combustible"></label>
+
+             
+                <div *ngIf="turismo;else combustibleVan">
+                  <p-dropdown [options]="combustibles" placeholder="Elige el combustible" optionLabel="name"
+                [showClear]="true" optionValue="code" [(ngModel)]="viaje.combustible" name="combustible" [required]="true"></p-dropdown>
+            
+            
+                </div>
+  
+                <ng-template #combustibleVan>
+                  <p-dropdown [options]="combustiblesV" placeholder="Elige el combustible" optionLabel="name"
+                [showClear]="true" optionValue="code" [(ngModel)]="viaje.combustible" name="combustible" [required]="true"></p-dropdown>
+            
+                </ng-template>
+            
+              </div>
+           
+           
+            <div class="field col-12 md:col-3">
+              <label for="segmento"></label>
+
+              <!--Tamanios COCHE-->
+              <div *ngIf="turismo;else sizeVan">
+              <div *ngIf="viaje.combustible=='Petrol' || viaje.combustible=='Diesel';else other_content">
+                <p-dropdown [options]="sizesCar" placeholder="Elige el segmento" optionLabel="name" [showClear]="true"
+                  optionValue="code" [(ngModel)]="viaje.size" name="size" [required]="true"></p-dropdown>
+
+              </div>
+
+              <ng-template #other_content>
+                <p-dropdown [options]="sizesHib" placeholder="Elige el segmento" optionLabel="name" [showClear]="true"
+                  optionValue="code" [(ngModel)]="viaje.size" name="size" [required]="true"></p-dropdown>
+              </ng-template>
+            </div>
+            </div>
+
+            <!--Tamanios VAN-->
+            <ng-template #sizeVan>
+              
+              <div *ngIf=" viaje.combustible=='Diesel';else petrolsizeVan">
+                <p-dropdown [options]="sizesCar" placeholder="Elige el segmento" optionLabel="name" [showClear]="true"
+                  optionValue="code" [(ngModel)]="viaje.size" name="size" [required]="true"></p-dropdown>
+
+              </div>
+
+              <ng-template #petrolsizeVan>
+                <p-dropdown [options]="sizesVan" placeholder="Elige el segmento" optionLabel="name" [showClear]="true"
+                  optionValue="code" [(ngModel)]="viaje.size" name="size" [required]="true"></p-dropdown>
+              </ng-template>
+             
+
+            </ng-template>
+
+            <div class="field col-12 md:col-3">
+              <label for="distance"></label>
+              <!--
+<p-inputNumber [(ngModel)]="viaje.distance" [min]="0" inputId="distance" [showButtons]="true" mode="decimal"  buttonLayout="horizontal"
+                spinnerMode="horizontal" [showButtons]="true" inputId="minmax-buttons" [useGrouping]="false"></p-inputNumber>
+
+            -->
+
+              <input type="text" class="form-control" name="distance" [(ngModel)]="viaje.distance" required placeholder="Distancia en Km"
+                minlength="1" required>
+            </div>
+
+          </div>
         </div>
 
-        <div *ngIf="turismo">
-
-          <div class="form-group row">
-
-            <label for="combustibles" class="col-form-label col-lg-2 col-sm-12">Combustible:</label>
-
-            <div class="col-lg-6 col-sm-12">
-              <select formControlName="combustible" class="form-control" (ngModelChange)="actualizarTipoVeh()">
-                <option disabled>Selecciona el tipo de combustible</option>
-                <option *ngFor="let combustible of combustibles" [ngValue]="combustible">
-                  {{ combustible.name }}
-                </option>
-              </select>
-            </div>
-          </div>
-
-
-
-          <div class="form-group row">
-            <label for="combustibles" class="col-form-label col-lg-2 col-sm-12">Tamaños:</label>
-
-            <div class="col-lg-6 col-sm-12">
-
-              <select formControlName="size" class="form-control">
-                <option disabled>Selecciona el tamaño</option>
-
-                <option *ngFor="let size of sizesAll" [ngValue]="size">
-                  {{ size.name }}
-                </option>
-
-
-              </select>
-            </div>
-          </div>
-        </div>
-
-      <div *ngIf="van">
-          <div class="form-group row">
-            <label for="combustiblesv" class="col-form-label col-lg-2 col-sm-12">Combustible:</label>
-
-            <div class="col-lg-6 col-sm-12">
-              <select formControlName="combustible" class="form-control" (ngModelChange)="actualizarTipoVans()">
-                <option disabled>Selecciona el tipo de combustible</option>
-                <option *ngFor="let combustible of combustiblesV " [ngValue]="combustible ">
-                  {{ combustible.name }}
-                </option>
-              </select>
-            </div>
-          </div>
-
-
-
-          <div *ngIf = "sizesAll?.length!= 0"  class="form-group row">
-            <label for="combustibles" class="col-form-label col-lg-2 col-sm-12">Tamaños:</label>
-
-            <div class="col-lg-6 col-sm-12">
-
-              <select formVControlName="size" class="form-control">
-                <option disabled>Selecciona el tamaño</option>
-
-                <option *ngFor="let size of sizesAll" [ngValue]="size">
-                  {{ size.name }}
-                </option>
-
-
-              </select>
-            </div>
-          </div>
-        </div>
 
 
         <div *ngIf="moto">
-          <div class="form-group row">
-            <label for="combustibles" class="col-form-label col-lg-2 col-sm-12">Tamaños:</label>
 
-            <div class="col-lg-6 col-sm-12">
+          <div class="grid p-fluid">
+           
+            <div class="field col-12 md:col-3">
+              <label for="segmento"></label>
 
-              <select formControlName="size" class="form-control">
-                <option disabled>Selecciona el tamaño</option>
+                <p-dropdown [options]="sizesMoto" placeholder="Elige la cilindrada" optionLabel="name" [showClear]="true"
+                  optionValue="code" [(ngModel)]="viajeMoto.size" name="size" [required]="true"></p-dropdown>
 
-                <option *ngFor="let size of sizesAll" [ngValue]="size">
-                  {{ size.name }}
-                </option>
-              </select>
+            
             </div>
+
+            <div class="field col-12 md:col-3">
+              <label for="distance"></label>
+            
+              <input type="text" class="form-control" name="distanceMoto" [(ngModel)]="viajeMoto.distance" required placeholder="Distancia en Km"
+                minlength="1" required>
+            </div>
+
           </div>
         </div>
 
-        <div class="form-group row">
-          <label for="pasajeros" class="col-form-label col-lg-2 col-sm-12">Distancia en Km</label>
-          <div class="col-lg-6 col-sm-12">
-            <input type="number"  class = "form-control" formControlName="distancia" >
 
-          </div>
-        </div>
 
 
         <div class="form-group row">
           <div class="col-sm-12">
-          <button role="button" class="btn btn-info float-right" (click)='calcularCoches()' >Calcular huella</button>
-          <ng-template #elseBlock>
-            <!--mientras sea inválido algún campo del form se desabilitan los botones
-            *ngIf="!tramo.origen else elseBlock" [disabled]="!vuelosForm.form.valid"
-            <button role="button" class="btn btn-info" (click)='update()' [disabled]="!vuelosForm.form.valid">Editar</button>-->
-          </ng-template >
+          <button role="button" class="btn btn-info float-right mt-5" (click)='calcularCoches()' [disabled]="!cochesForm.form.valid">Calcular huella</button>
+          <button role="button" class="btn btn-info float-left mt-5" (click)='anadir()' [disabled]="!cochesForm.form.valid">Añadir a bitacora</button>
+          
+        <!-- <button pButton type="button" label="Calcular huella" (click)="calcularCoches()"></button> --> 
+
           </div>
         </div>
 
 
       </form>
-      <p>Form value: {{ form.value | json }}</p>
 
     </div>
   </div>
+</div>

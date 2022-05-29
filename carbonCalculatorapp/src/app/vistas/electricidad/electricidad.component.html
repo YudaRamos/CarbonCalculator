@@ -1,0 +1,85 @@
+<div style="margin-top: 3%;" class="card border-primary text-center">
+    <div class="card-header bg-dark text-white">{{titulo}}</div>
+    <div class="card-body">
+        <form #electricidadForm="ngForm">
+            <div class="form-group row">
+
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Elige el Electrodoméstico</h5>
+                    <p-dropdown [options]="electrodomesticos" placeholder="Elige el electrodoméstico"  [showClear]="true"  [(ngModel)]="electrodomestico.tipo" name="tipo" [required]="true"></p-dropdown>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Elige el Pais</h5>
+                    <p-dropdown [options]="paises" placeholder="Elige el pais" optionLabel="name" [showClear]="true" optionValue="code" [(ngModel)]="electrodomestico.country" name="pais" [required]="true"></p-dropdown>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Elige la Medida</h5>
+                    <p-dropdown [options]="medidas" placeholder="Elige la medida" optionLabel="name" [showClear]="true" #medida="ngModel" optionValue="code" [(ngModel)]="electrodomestico.electricity_unit" name="medida" [required]="true"></p-dropdown>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                    <h5>Inserta el consumo</h5>
+                    <p-inputNumber name="consumo" [(ngModel)]="electrodomestico.electricity_value" name="consumo"  [required]="true" [min]="0"
+                    ></p-inputNumber>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12 col-sm-12">  <button role="button" class="btn btn-info float-right" (click)='addConsumo()' [disabled]="!electricidadForm.form.valid">Añadir consumo</button></div>
+                <div class="col-lg-12 col-sm-12" *ngIf="!electricidadForm.form.valid">Todos los campos deben de estar rellenos</div>
+            </div>
+            <div class="form-group row">
+
+                <div *ngIf= "electrodomesticosAnanidos?.length == 0" class="col-sm-12 alert alert-dark" role="alert">
+                    No hay ningún electrodoméstico añadido
+                </div>
+                <table class="table table-bordered table-striped" *ngIf ="electrodomesticosAnanidos?.length>0">
+                  <thead>
+                    <tr>
+                      <th>Electrodomestico</th>
+                      <th>Pais</th>
+                      <th>Medida</th>
+                      <th>Consumo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let elec of electrodomesticosAnanidos">
+                        <td>{{elec.tipo}}</td>
+                        <td>{{elec.country}}</td>
+                        <td>{{elec.electricity_unit}}</td>
+                        <td>{{elec.electricity_value}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+
+            <div *ngIf= "electrodomesticosAnanidos?.length != 0">
+                <button class="btn btn-rounded btn-danger" name ="eliminar" type="button" (click)="delete()" >Eliminar</button>
+            </div>
+
+
+            <div class="form-group row">
+                <button role="button" class="btn btn-info float-right" (click)='calcularElectricidad()' *ngIf ="electrodomesticosAnanidos?.length>0">Calcular huella</button>
+                <div class="col-lg-3 col-sm-12">
+                    <button role="button" class="btn btn-info float-left" (click)='anadir()'  *ngIf ="electrodomesticosAnanidos?.length>0">Añadir a Bitácora</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

@@ -10,6 +10,8 @@ export class AppComponent {
 
 
  ngOnInit() {
-
+  
  }
+
+ 
 }

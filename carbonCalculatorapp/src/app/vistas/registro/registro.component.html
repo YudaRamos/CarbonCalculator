@@ -1,0 +1,75 @@
+<section class="vh-100">
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5 mx-auto mt-5">Create una cuenta</h2>
+
+              <form #usuarioForm="ngForm">
+                
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="form3Example1cg">Usuario</label>
+                  <input type="text"  class="form-control form-control-lg" [(ngModel)]="usuario.nombre" name="nombre" #nombre="ngModel" required minlength="4" />
+                  <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                    <div *ngIf="nombre.errors?.['required']">
+                        Usuario es requerido
+                    </div>
+                    <div *ngIf="nombre.errors?.['minlength']">
+                      El usuario debe tener mas de 4 caracteres
+                  </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example1cg">Email</label>
+                    <input type="text"  class="form-control form-control-lg" [(ngModel)]="usuario.email" name="email" #email="ngModel" required email/><!--"    -->
+                    <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                      <div *ngIf="email.errors?.['required']">
+                          Email es requerido
+                      </div>
+                      <div *ngIf="email.errors?.['email']">
+                        Email debe un formato valido
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example1cg">Contraseña</label>
+                    <input type="password"  class="form-control form-control-lg is-invalid"  [(ngModel)]="usuario.password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" #password="ngModel"required />
+                    <div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+                      <div *ngIf="password.errors?.['required']">
+                          Contraseña es requerida
+                      </div>
+
+                      <div *ngIf="password.errors?.['pattern']">
+                        La contraseña debe tener más de 8 caracteres, una mayuscula y una minúscula.
+                    </div>
+                    </div>
+                  </div>
+
+                  
+
+                <div class="d-flex justify-content-center">
+                    
+                 <button type="button" role="button" (click)='create()' *ngIf="!usuario.id else elseBlock" [disabled]="!usuarioForm.form.valid"
+                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Registrar</button>
+                </div>
+                <ng-template #elseBlock>
+                  <button class="btn btn-primary" role="button" (click)='update()' [disabled]="!usuarioForm.form.valid">Editar</button>                
+                </ng-template>
+                
+
+                <p class="text-center text-muted mt-5 mb-0">¿Ya tienes cuenta? <a  [routerLink]="['/login']"
+                    class="fw-bold text-body"><u>Entra desde aquí</u></a></p>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

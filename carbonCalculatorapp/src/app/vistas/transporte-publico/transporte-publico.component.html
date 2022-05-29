@@ -1,0 +1,108 @@
+<div style="margin-top: 3%;" class="card border-primary text-center ">
+    <div class="card-header bg-dark text-white"> {{titulo}}</div>
+    <div class="card-body ">
+ 
+
+        <div class="container">
+ 
+            <form [formGroup]="form">
+ 
+
+                <div class="form-group row">
+ 
+                    <div class="col-lg-3 col-sm-12">
+                        <div class="card" >
+                            <button role="button" class="btn btn-info float-right" (click)='showForm("metro")'>
+
+                                <img src={{picMetro}} class="card-img-top" alt="..." style="width:180px;height: 150px;">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Metro</h5>
+                                    <p class="card-text">Calcular la huella del metro.</p>
+ 
+
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+ 
+             
+                        <div class="col-lg-3 col-sm-12">
+                            <div class="card" >
+                                <button role="button" class="btn btn-info float-right" (click)='showForm("taxi")'>
+                                    <img src={{picTaxi}} class="card-img-top" alt="..."
+                                    style="width:180px;height: 150px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Taxi</h5>
+                                        <p class="card-text">Calcular la huella de tu taxi.</p>
+ 
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                   
+ 
+                
+                    <div class="col-lg-3 col-sm-12">
+                        <div class="card" >
+                            <button role="button" class="btn btn-info float-right"
+                                        (click)='showForm("bus")'>
+                            <img src={{picBus}} class="card-img-top" alt="..." style="width:180px;height: 150px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Autobus</h5>
+                                <p class="card-text">Calcular la huella de autobus.</p>
+                            </div>
+                        </button>
+                        </div>
+                    </div>
+             
+ 
+
+                <div class="col-lg-3 col-sm-12">
+                    
+                        <div class="card"  >
+                            <button role="button" class="btn btn-info float-right"
+                                        (click)='showForm("tren")'>
+                            <img src={{picTren}} class="card-img-top" alt="..." style="width:180px;height: 150px;">
+                            <div class="card-body">
+                                <h5 class="card-title">Tren</h5>
+                                <p class="card-text">Calcular la huella del tren.</p>
+                            </div>
+                        </button>
+                        </div>
+                    </div>
+                
+        </div>
+ 
+        <div class="form-group row">
+            <label for="pasajeros" class="col-form-label col-lg-2 col-sm-12">Distancia en Km:</label>
+            <div class="col-lg-6 col-sm-12">
+                <input type="number" class="form-control" formControlName="distancia">
+ 
+
+            </div>
+        </div>
+ 
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button role="button" class="btn btn-info float-right" (click)="calcularTPublico()">Calcular huella</button>
+                <button role="button" class="btn btn-info float-left" (click)="anadir()">Añadir a bitácora</button>
+                <ng-template #elseBlock>
+ 
+                
+ 
+                </ng-template>
+            </div>
+ 
+        </div>
+ 
+
+        </form>
+        <!-- <p>Form value: {{ form.value | json }}</p>-->
+ 
+    </div>
+</div>
+
+
+
+

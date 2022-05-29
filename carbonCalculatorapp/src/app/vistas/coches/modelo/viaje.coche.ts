@@ -2,6 +2,8 @@
 export class ViajeCoche{
 distance:string;
 vehicle : string;
+combustible: string;
+size:string;
 
   constructor() { }
 
@@ -21,5 +23,22 @@ vehicle : string;
          this.vehicle = vehicle;
 
     }
+
+    get _combustible(): string {
+     return this.combustible;
+ }
+
+ set _combustible(combustible:string) {
+      this.combustible = combustible;
+
+ }
+ get _size(): string {
+     return this.size;
+ }
+
+ set _size(size:string) {
+      this.size = size;
+
+ }
 
 }

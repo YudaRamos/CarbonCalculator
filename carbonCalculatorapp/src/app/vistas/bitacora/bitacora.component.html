@@ -1,0 +1,23 @@
+<div style="margin-top: 3%;" class="card border-primary mb-3">
+    <div class="card-header bg-dark text-white">CONSUMO</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">CO2 PROVOCADO</h5>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Actividad</th>
+                    <th>Hulla generada</th>
+                    <th>Fecha</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let act of actividades">
+                    <td>{{act.categoria}}</td>
+                    <td>{{act.consumo}}</td>
+                    <td>{{act.fecha}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
