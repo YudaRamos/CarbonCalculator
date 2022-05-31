@@ -64,18 +64,8 @@ export class UsuarioService {
 
     create(usuario: Usuario) : Observable<Usuario> {
         return this.http.post(this.urlEndPoint,usuario,{headers: this.httpHeaders}).pipe(
-            map((response:any) => response.usuario as Usuario),
-            catchError(e => {
-              if(this.isNoAutorizado(e)) {
-                return throwError(e);
-              }
-                if(e.status==400) {
-                    return throwError(e);
-                }
-                console.error(e.error.mensaje);
-                swal.fire(e.error.mensaje,e.error.error,'error');
-                return throwError(e);
-            })
+            map((response:any) => response.usuario as Usuario)
+           
         )
     }
     getUsuario(id): Observable<Usuario>{

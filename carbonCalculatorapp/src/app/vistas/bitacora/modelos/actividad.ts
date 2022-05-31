@@ -1,6 +1,6 @@
 
 export class Actividad {
-    fecha: Date;
+    fecha: string;
     categoria: string;
     consumo: number;
     
@@ -20,11 +20,11 @@ export class Actividad {
         this.consumo = consumo;
     }
 
-    get _fecha(): Date{
+    get _fecha(): string{
         return this.fecha;
     }
 
-    set _fecha(fecha:Date) {
+    set _fecha(fecha:string) {
         this.fecha = fecha;
 
     }

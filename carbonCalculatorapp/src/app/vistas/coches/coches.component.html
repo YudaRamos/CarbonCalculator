@@ -12,7 +12,7 @@
             <div class="card" style="width: 18rem;">
              <button role="button" class="btn btn-info float-right"
                     (click)='showForm("turismo")' >
-              <img src={{ImagePath}} class="card-img-top" alt="..." style="width:280px;height: 250px;">
+              <img src={{ImagePath}} class="card-img-top" alt="..." style="width:180px;height: 150px;">
               <div class="card-body">
                 <h5 class="card-title">TURISMO</h5>
                 <p class="card-text">Calcular la huella de tu TURISMO.</p>
@@ -27,7 +27,7 @@
               <div class="card" style="width: 18rem;">
                 <button role="button" class="btn btn-info float-right"
                       (click)='showForm("van")'>
-                <img src={{vans}} class="card-img-top" alt="..." style="width:280px;height: 250px;">
+                <img src={{vans}} class="card-img-top" alt="..." style="width:180px;height: 150px;">
                 <div class="card-body">
                   <h5 class="card-title">VAN</h5>
                   <p class="card-text">Calcular la huella de tu VANS.</p>
@@ -42,7 +42,7 @@
               <div class="card" style="width: 18rem;">
                 <button role="button" class="btn btn-info float-right"
                       (click)='showForm("moto")'>
-                <img src={{motobike}} class="card-img-top" alt="..." style="width:280px;height: 250px;">
+                <img src={{motobike}} class="card-img-top" alt="..." style="width:180px;height: 150px;">
                 <div class="card-body">
                   <h5 class="card-title">MOTO</h5>
                   <p class="card-text">Calcular la huella de tu MOTO.</p>
@@ -170,3 +170,15 @@
     </div>
   </div>
 </div>
+<div  class="col text-center" style="margin-top: 3%;"  >
+  <img src={{consejos}} class="card-img-top" alt="..." style="width:380px;height: 250px;">
+</div> 
+<p-carousel [value]="soluciones" [circular]="true">
+  <ng-template let-car pTemplate="item" >
+    <ng-container>
+    <p class="carousel">
+    {{randomItem}}
+    </p>
+  </ng-container>
+  </ng-template>
+</p-carousel>

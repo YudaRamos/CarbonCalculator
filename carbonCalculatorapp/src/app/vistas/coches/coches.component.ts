@@ -9,6 +9,7 @@ import swal from 'sweetalert2'
 import { ViajeMoto } from './modelo/viaje.moto';
 import { DatePipe } from '@angular/common';
 import { Actividad } from '../bitacora/modelos/actividadTPrivado';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-coches',
@@ -33,7 +34,14 @@ export class CochesComponent implements OnInit {
   pipe = new DatePipe('en-EN');
   todayWithPipe = null;
   actividad: Actividad = new Actividad();
-
+  soluciones = [
+    "Hoy en día hay toallas que no pesan nada y se secan enseguida de forma natural, por lo que te pedimos que lleves siempre tu propia toalla en tus viajes. Es totalmente ridículo que los hoteles y otros alojamientos  laven las toallas cada día. Si no lo haces en casa, no es necesario que te lo hagan cuando viajas. De esta  forma ahorrarás mucha agua y energía, además de evitar la destrucción del medioambiente con químicos  totalmente incesarios.",
+    "Busca un estilo de viaje que tenga algo más que ofrecer no solamente para ti, sino también para la comunidad  local que visites y para el medioambiente.  Utiliza proveedores que ayuden a proteger el medioambiente. Busca excursiones con valor añadido.  Por ejemplo, puedes ir a plantar árboles durante tu viaje, ayudar a quitar basura de la naturaleza, etc.",
+    "Caminar, usar bicicletas mecánicas o bicicletas eléctricas: medios de transporte perfectos para desplazamientos cortos y que permiten realizar una actividad física regular. Además, el uso de una bicicleta en lugar de un coche reduce considerablemente la huella de carbono.",
+    "Los coches eléctricos o híbridos: los vehículos eléctricos generarán menor contaminación acústica, de gases y de partículas en las ciudades.  En algunas ciudades existe el carsharing eléctricos ;un servicio de alquiler de coches en el que el usuario sólo paga por las horas que utiliza el vehículo",
+    "Compartir coche: Compartir coche es una forma muy interesante para ahorrar en nuestros trayectos y ahorrar en emisiones de CO2.",
+    "Alquilar coche: según los últimos estudios realizados, el desembolso anual de mantenimiento de un coche en propiedad supone una carga financiera muy alta, carga que se ve muy reducida si sólo alquilamos un coche cuando realmente lo necesitamos."
+  ];
 
 
   combustibles =
@@ -87,19 +95,31 @@ export class CochesComponent implements OnInit {
 
     ];
 
+  huellaProducida: number;
+  token: string;
+  userEmail: string;
+  fields: string = `name%2Cemail%2Cpicture%2Cfirst_name%2Clast_name`
+  randomItem: string;
+  consejos: string;
 
 
-
-  constructor(private router: Router,
+  constructor(private router: Router, private cdRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute, private cocheService: CocheService) {
     this.ImagePath = '/assets/coche-removebg-preview.png';
     this.vans = '/assets/vans-removebg-preview.png';
     this.motobike = '/assets/motor-removebg-preview.png';
-
+    this.consejos = '/assets/consejos-removebg-preview.png';
   }
 
 
   ngOnInit(): void {
+    if (localStorage.length != 0) {
+      let token = JSON.parse(localStorage.getItem('token'));
+      this.token = token.token
+      let userEmail = JSON.parse(localStorage.getItem('user'));
+      this.userEmail = userEmail.username;
+
+    }
   }
 
 
@@ -190,16 +210,33 @@ export class CochesComponent implements OnInit {
   }
 
 
-  public anadir(): void{
-    this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
-    this.actividad.fecha = this.todayWithPipe;
-    this.actividad.categoria = "Transporte Privado";
-    console.log(this.actividad);
-    this.cocheService.create(this.actividad).subscribe();
-    swal.fire('','Actividad añadida correctamente', 'success')
+  public anadir(): void {
+    if (this.token == null) {
+      swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
+      // this.router.navigate(['/login']);
+    } else {
+      this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
+      this.actividad.fecha = this.todayWithPipe;
+      this.actividad.categoria = "Transporte Privado";
+      console.log(this.actividad);
+      this.cocheService.create(this.actividad).subscribe();
+      swal.fire('', 'Actividad añadida correctamente', 'success')
+    }
+
+
 
   }
 
+  textoAleatorio() {
+    this.randomItem = this.soluciones[Math.floor(Math.random() * this.soluciones.length)];
+    return this.randomItem;
+  }
 
+
+  ngAfterContentChecked() {
+    this.randomItem = this.textoAleatorio();
+    this.cdRef.detectChanges();
+
+  }
 
 }

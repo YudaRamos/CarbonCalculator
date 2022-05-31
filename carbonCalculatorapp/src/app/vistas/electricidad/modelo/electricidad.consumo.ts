@@ -1,14 +1,14 @@
 export class electricidadConsumo {
 
-    tipo: string = "electricity";
+    type: string = "electricity";
     country: string;
     electricity_unit: string;
     electricity_value: number;
 
     constructor(){}
-
-    get _tipo(): string{
-        return this.tipo;
+    
+    get _type(): string{
+        return this.type;
     }
 
     get _country(): string {

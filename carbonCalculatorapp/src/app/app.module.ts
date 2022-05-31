@@ -36,7 +36,10 @@ import { CarouselModule } from 'primeng/carousel';
 import { BitacoraComponent } from './vistas/bitacora/bitacora.component';
 import { UsuariosComponent } from './vistas/usuarios/usuarios.component';
 import { UsuarioService } from './vistas/usuarios/usuario.service';
+import localeES from '@angular/common/locales/es';
+import {registerLocaleData} from '@angular/common';
 
+registerLocaleData(localeES, 'es');
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },

@@ -12,8 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class RegistroComponent implements OnInit {
 
-  public usuario: Usuario = new Usuario();
-  public titulo:string = "Crear Cliente"
+  public usuario: Usuario = new Usuario();  
   public errores: string[] = [];
 
   constructor(private usuarioService: UsuarioService,
@@ -42,8 +41,9 @@ export class RegistroComponent implements OnInit {
       },
       err => {
         this.errores = err.error.errors as string[];
-        console.error('Codigo del error desde el backend: ' +err.status);
-        console.error(err.error.errors);
+        //console.error('Codigo del error desde el backend: ' +err.status);
+        //console.error(err.error.errors);
+        Swal.fire('Error', "Ups! algo ha ido mal", 'error')
       }
       );
   }

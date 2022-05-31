@@ -1,9 +1,0 @@
-button:hover {
-    color: rgba(255, 255, 255, 1) !important;
-    box-shadow: 0 4px 16px rgb(0, 0, 0);
-    transition: all 0.2s ease;
-  }
-  button:active{
-    color: rgb(0, 0, 0) !important;
-
-}

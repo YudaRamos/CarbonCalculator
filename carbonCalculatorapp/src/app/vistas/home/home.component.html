@@ -6,27 +6,28 @@
 </head>
 
 <body class="overflow-hidden">
+
 <h1 class="text-center mt-5">{{title}}!</h1>
+<div style="margin-top: 3%;" class="card border-primary text-center ">
+  <button type="button" class="btn btn-secondary" [routerLink]="['/registro']">REGISTRO</button>
+
+</div>
 
 
-
-<button type="button" class="bt1 rounded bg-dark" [routerLink]="['/registro']">REGISTRO</button>
-<button type="button" class="bt2 rounded bg-dark" [routerLink]="['/soluciones']">CONSEJOS ÚTILES</button>
-<div class="container-lg p-5 mt-5" id="curiosidades">
-<div class="sabias animate__animated animate__backInRight">¿Sabias qué?</div>
-  
+  <div  class="col text-center" style="margin-top: 3%;"  >
+    <img src={{sabias}} class="card-img-top" alt="..." style="width:380px;height: 250px;">
+  </div> 
 <p-carousel [value]="curiosidades" [circular]="true">
   <ng-template let-car pTemplate="item" >
     <ng-container>
     <p class="carousel">
-    {{textoAleatorio()}}
+    {{randomItem}}
     </p>
   </ng-container>
   </ng-template>
 </p-carousel>
 
     
-</div>
 
 
 </body>

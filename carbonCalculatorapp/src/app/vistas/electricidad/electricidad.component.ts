@@ -10,6 +10,7 @@ import { Actividad } from '../bitacora/modelos/actividadElectricidad';
 import { DatePipe } from '@angular/common';
 import { huellaGenerada } from './modelo/huella.generada';
 import { BitacoraService } from '../bitacora/bitacora.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-electricidad',
@@ -28,7 +29,15 @@ export class ElectricidadComponent implements OnInit {
   today: Date = new Date();
   pipe = new DatePipe('en-EN');
   todayWithPipe = null;
-  
+  soluciones = ["Desconecta todos los cargadores de electricidad si no los estás utilizando o no necesitas tener tus aparatos conectados.Aunque los cargadores no están en uso directo siguen consumiendo energía y contribuyen al calentamiento global, por eso se llaman “vampiros de energía”",
+    "Utiliza solamente el agua que sea imprescindible. ¡No gastes agua de más! Haz lo mismo con la luz o, mejor dicho, con toda la energía. No hay razón para gastar estos recursos más de lo necesario.",
+    "Parece una tontería, pero cuantas más bolsas de plástico y paquetes haya en tu frigorífico más consumo eléctrico generas, ya que el aparato necesita más potencia para enfriar los alimentos. ",
+    "Algunos de los electrodomésticos de tu casa consumen más de lo que crees y no en todos los casos es necesario que estén siempre enchufados. No te pedimos que desenchufes el frigorífico (a no ser que te cojas unas largas vacaciones), pero ¿qué sentido tiene tener en stand-by la tele y el DVD y la minicadena y el portátil? ¿Por qué tener enchufados tres o cuatro cargadores que no están conectados a ningún móvil ni tablet? Y mejor no hablar de dejarse encendidas las luces de habitaciones en las que no hay nadie. Este frente de batalla es fundamental y además de reducir tu huella de carbono te ayudará a ahorrar en tu factura eléctrica.",
+    "La plancha es un aparato de uso cotidiano que consume una gran cantidad de energía. Utilizarla de manera ordenada te permite ahorrar energía y reducir gastos: intenta planchar la mayor cantidad posible de ropa  cada vez que la enciendas, ya que conectar y desconectar muchas veces la plancha consume más energía que  mantenerla encendida un tiempo. También es recomendable desconectar la plancha un poco antes de terminar para aprovechar la temperatura acumulada.",
+    "Utiliza bombillas de bajo consumo (lámparas fluorescentes compactas) en vez de focos incandescentes: usan entre un 50% y un 80% menos de energía, producen la misma cantidad de luz y duran diez veces más. También puedes optar por las lámparas LEDS, que también consumen mucho menos y tienen una duración aproximada de 70.000 horas, por lo que pueden llegar a durar hasta 50 años. Además, si optas por pintar el interior de tu casa con colores claros, también necesitarás menos energía para iluminarla: la luz de tus bombillas se reflejará mucho mejor y necesitarás menos iluminación artificial",
+    "Si instalas toldos de lona, aleros inclinados, persianas de aluminio o vidrios polarizados en las ventanas evitarás que el sol alcance directamente el interior de tu vivienda y la refrescarás con un gasto menor que  si utilizaras aire acondicionado. Además, utilizando un aislamiento adecuado en techos y paredes se puede  mantener una temperatura agradable y reducir el uso tanto de calefacción como de aire acondicionado. Si  utilizas estos sistemas, no te olvides de controlar el termostato: se recomienda mantenerlo a no más de 18°C  en invierno y a no más de 25°C en verano."
+  ];
+  randomItem: string;
   huellaProducida: number;
   token: string;
   userEmail: string;
@@ -87,21 +96,21 @@ export class ElectricidadComponent implements OnInit {
       'Vitroceramica'
 
     ];
-
-  constructor(private router: Router,
-    private activatedRoute: ActivatedRoute, private electricidadService: ElectricidadService, private bitacoraService: BitacoraService) { }
+  consejos: string;
+  constructor(private router: Router, private cdRef: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute, private electricidadService: ElectricidadService, private bitacoraService: BitacoraService) {
+    this.consejos = '/assets/consejos-removebg-preview.png';
+  }
 
   ngOnInit(): void {
-    if (localStorage.length!=0){
+    if (localStorage.length != 0) {
       let token = JSON.parse(localStorage.getItem('token'));
-    this.token = token.token
-    let userEmail = JSON.parse(localStorage.getItem('user'));
-    this.userEmail = userEmail.username;
-    console.log(this.token);
-    console.log(this.userEmail);
+      this.token = token.token
+      let userEmail = JSON.parse(localStorage.getItem('user'));
+      this.userEmail = userEmail.username;
     }
-    
-    
+
+
   }
 
 
@@ -115,7 +124,7 @@ export class ElectricidadComponent implements OnInit {
   }
 
   delete(): void {
-    this.electrodomesticosAnanidos.splice(0,this.electrodomesticosAnanidos.length);
+    this.electrodomesticosAnanidos.splice(0, this.electrodomesticosAnanidos.length);
   }
 
   public calcularElectricidad(): void {
@@ -162,7 +171,7 @@ export class ElectricidadComponent implements OnInit {
 
   public anadir(): void {
     if (this.token == null) {
-      Swal.fire('','Para registrar una bitácora de actividades debe estar logueado en Zerokhoi','error');
+      Swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
       // this.router.navigate(['/login']);
     } else {
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
@@ -179,7 +188,7 @@ export class ElectricidadComponent implements OnInit {
               this.actividad.fecha = this.todayWithPipe;
               console.log(this.actividad);
               this.electricidadService.create(this.actividad).subscribe();
-              Swal.fire('','Actividad añadida correctamente', 'success')
+              Swal.fire('', 'Actividad añadida correctamente', 'success')
 
             } else {
 
@@ -191,7 +200,7 @@ export class ElectricidadComponent implements OnInit {
               this.actividad.fecha = this.todayWithPipe;
               console.log(this.actividad);
               this.electricidadService.create(this.actividad).subscribe();
-              Swal.fire('','Actividad añadida correctamente', 'success')
+              Swal.fire('', 'Actividad añadida correctamente', 'success')
 
             }
           }
@@ -205,6 +214,16 @@ export class ElectricidadComponent implements OnInit {
 
 
   }
+  textoAleatorio() {
+    this.randomItem = this.soluciones[Math.floor(Math.random() * this.soluciones.length)];
+    return this.randomItem;
+  }
 
+
+  ngAfterViewChecked() {
+    this.randomItem = this.textoAleatorio();
+    this.cdRef.detectChanges();
+
+  }
 
 }

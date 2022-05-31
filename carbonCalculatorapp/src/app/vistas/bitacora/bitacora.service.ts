@@ -18,18 +18,16 @@ export class BitacoraService {
 
   constructor(private http: HttpClient) { }
 
-  /*getActividad(): Observable<Actividad[]>{
-      return this.http.get(this.urlEndPoint).pipe(
-        map((response) => response as Actividad[])
-      );
-    } */
+ 
   getActividad(): Observable<Actividad[]> {
     return this.http.get(this.urlEndPoint).pipe(
       map(response => {
         let actividades = response as Actividad[];
         return actividades.map(actividad => {
-          let datePipe = new DatePipe('en-EN');
-          actividad.fecha = new Date(datePipe.transform(actividad.fecha, 'yyyy-MM-dd'));
+          let datePipe = new DatePipe('es');
+         // actividad.fecha = new Date(datePipe.transform(actividad.fecha, 'EEEE, MMMM d, y'));
+
+          actividad.fecha = datePipe.transform(actividad.fecha,'EEE dd/MMM/yyyy');
           return actividad;
         })
       })

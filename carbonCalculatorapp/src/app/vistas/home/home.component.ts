@@ -19,11 +19,14 @@ export class HomeComponent implements OnInit, AfterContentChecked{
     "El uso de Spotify produce entre 200 y 350 mil toneladas de GEI al año, según la revista Rolling Stone.",
     "La minería de bitcóin consume  mas electricidad que 159 países 121.36 teravatios / hora al año, es decir, más de lo que consumen Google, Apple, Facebook y Microsoft juntos.",
     "La concentración de CO2 en 2018 fue de 407.8 ppm, lo que equivale al 147% más del nivel obtenido en la época preindustrial (1750).",
+    "Según la Estrategia Española de Movilidad Sostenible, en 2006 la carretera causó el 89,2% de las emisiones del transporte, la aviación nacional el 6,6%, el cabotaje marítimo el 3,9% y el ferrocarril el restante 0,3%.  Por tipo de vehículo, el 53,2% de las emisiones del transporte por carretera correspondieron a los turismos y motocicletas, mientras que el 33,5% provino de los vehículos pesados (autobuses y camiones) y el restante 13,3% de los vehículos de transporte ligeros.",
     "En el 2015, los principales emisores de dióxido de carbono (CO2) fueron China, Estados Unidos, la Unión Europea, India, Rusia y Japón."];
 
-   
-
-  constructor(private cd:ChangeDetectorRef) { }
+   sabias:string
+   randomItem: string; 
+  constructor(private cdRef: ChangeDetectorRef) {
+    this.sabias= '/assets/sabiasss-removebg-preview.png';
+   }
 
 
 
@@ -32,11 +35,15 @@ export class HomeComponent implements OnInit, AfterContentChecked{
   }
 
   ngAfterContentChecked() {
-    this.cd.detectChanges();
+    this.randomItem = this.textoAleatorio();
+    this.cdRef.detectChanges();
+
   }
 
   textoAleatorio() {
-    var randomItem = this.curiosidades[Math.floor(Math.random() * this.curiosidades.length)];
-    return randomItem;
+    this.randomItem = this.curiosidades[Math.floor(Math.random() * this.curiosidades.length)];
+    return this.randomItem;
   }
+
+ 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../usuarios/usuario';
+import { UsuarioService } from '../usuarios/usuario.service';
 import swal from 'sweetalert2';
 
 import { AuthServiceService } from './auth.service';
@@ -17,14 +18,15 @@ import { SocialAuthService, FacebookLoginProvider, SocialUser } from 'angularx-s
 
 export class LoginComponent implements OnInit {
   titulo: string = 'Inicia sesión!';
-  usuario: Usuario;
+  public usuario: Usuario = new Usuario();  
+  public errores: string[] = [];
   loginForm: FormGroup;
   socialUser: SocialUser;
   isLoggedin: boolean = null;
   username: string;
 
   constructor(private authService: AuthServiceService, private router: Router, private formBuilder: FormBuilder,
-    private socialAuthService: SocialAuthService) {
+    private socialAuthService: SocialAuthService,private usuarioService: UsuarioService,) {
     this.usuario = new Usuario();
   }
 
@@ -40,15 +42,14 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify({ username: this.socialUser.email }));
         localStorage.setItem('name', JSON.stringify({ name: this.socialUser.name }));    
         
-
+        this.create();
       }
     });
   
   }
 
   loginWithFacebook(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);     
     this.router.navigate(['/']);
   }
 
@@ -56,8 +57,7 @@ export class LoginComponent implements OnInit {
 
   signOut(): void {
     this.socialAuthService.signOut();
-    localStorage.clear();
-    //this.router.navigate(['/home']);
+    localStorage.clear();    
   }
 
 
@@ -75,8 +75,23 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  signIn(): void {
-
+  create(): void {
+    this.usuario.nombre=this.socialUser.firstName; 
+    this.usuario.email=this.socialUser.email;
+    this.usuario.password="FACEBOOK";
+    this.usuarioService.create(this.usuario)
+      .subscribe(usuario => {
+        //this.router.navigate(['/usuarios'])
+        swal.fire('Nuevo cliente', `El cliente ${usuario.nombre} ha sido creado con exito`, 'success')
+        this.router.navigate(['/'])
+      }/*,err => {
+        this.errores = err.error.errors as string[];
+        console.error('Codigo del error desde el backend: ' +err.status);
+        console.error(err.error.errors);
+      }
+       */
+      
+      );
   }
 
 }

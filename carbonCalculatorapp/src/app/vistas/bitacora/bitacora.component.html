@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th>Actividad</th>
-                    <th>Hulla generada</th>
+                    <th>Huella generada</th>
                     <th>Fecha</th>
                     
                 </tr>
@@ -21,3 +21,15 @@
         </table>
     </div>
 </div>
+<div  class="col text-center" style="margin-top: 3%;"  >
+    <img src={{consejos}} class="card-img-top" alt="..." style="width:380px;height: 250px;">
+  </div> 
+<p-carousel [value]="soluciones" [circular]="true">
+    <ng-template let-car pTemplate="item" >
+      <ng-container>
+      <p class="carousel">
+      {{randomItem}}
+      </p>
+    </ng-container>
+    </ng-template>
+  </p-carousel>
