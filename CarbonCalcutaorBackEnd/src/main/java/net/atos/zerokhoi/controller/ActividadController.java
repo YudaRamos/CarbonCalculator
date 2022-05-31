@@ -33,7 +33,9 @@ import org.springframework.web.client.RestTemplate;
 
 import net.atos.zerokhoi.dto.FacebookTokenResponse;
 import net.atos.zerokhoi.entity.Actividad;
+import net.atos.zerokhoi.entity.Usuario;
 import net.atos.zerokhoi.service.ActividadService;
+import net.atos.zerokhoi.service.UsuarioService;
 
 @CrossOrigin(origins = { "http://localhost:4200", "https://localhost:4200/" })
 @RestController
@@ -41,6 +43,8 @@ import net.atos.zerokhoi.service.ActividadService;
 public class ActividadController {
 	@Autowired
 	private ActividadService actividadService;
+	@Autowired
+	private UsuarioService usuarioService;
 
 	private final RestTemplate restTemplate;
 
@@ -54,13 +58,32 @@ public class ActividadController {
 		return actividadService.findAll();
 	}
 
+	@GetMapping("/user")
+	public ResponseEntity<?> findByUser(@RequestParam  String email) {
+		Usuario usuario = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			usuario = usuarioService.findByEmail(email);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta  en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (usuario == null) {
+			response.put("mensaje",
+					"El usuario con email: ".concat(email.toString()).concat(" no existe en la base de datos"));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+		}
+		List<Actividad> actividades= actividadService.findByUser(usuario);
+		
+		return new ResponseEntity<List<Actividad>>( actividades, HttpStatus.NOT_FOUND);
+	}
+
 	@GetMapping("/actividad/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		Actividad optActividad = null;
-		/*
-		 * if (optActividad!= null){ return ResponseEntity.ok(optActividad); } else {
-		 * return ResponseEntity.notFound().build(); }
-		 */
+
 		Map<String, Object> response = new HashMap<>();
 		try {
 
@@ -85,9 +108,11 @@ public class ActividadController {
 
 	@PostMapping("/actividades")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> create(@RequestBody @Valid Actividad actividad, BindingResult result) {
+	public ResponseEntity<?> create(@RequestBody @Valid Actividad actividad,@RequestParam  String email, BindingResult result) {
 		Map<String, Object> response = new HashMap<>();
 		Actividad actividadNew = null;
+		
+		Usuario usuario = null;
 		// EN CASO DE QUE HAYA ERRORES EN LA VAILDACIÓN SE MUESTRAN EN LA RESPUESTA
 		if (result.hasErrors()) {
 
@@ -98,8 +123,23 @@ public class ActividadController {
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
+		
+		try {
+			usuario = usuarioService.findByEmail(email);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta  en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (usuario == null) {
+			response.put("mensaje",
+					"El usuario con email: ".concat(email.toString()).concat(" no existe en la base de datos"));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+		}
 
 		try {
+			actividad.setUser(usuario);
 			actividadNew = actividadService.save(actividad);
 
 		} catch (DataAccessException e) {
@@ -112,29 +152,13 @@ public class ActividadController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
 	}
-/*// método para verificar el token de facebook
-	@GetMapping(value = "/valid")
-	private FacebookTokenResponse facebookValidatetoken(@RequestParam String token) {
 
-		String url = "https://graph.facebook.com/v10.0/me?access_token="+token+"&fields=name%2Cemail%2Cpicture%2Cfirst_name%2Clast_name";
-			System.out.println(url);
-		return restTemplate.getForObject(url, FacebookTokenResponse.class);
-
-	}
- * */
 	@GetMapping(value = "/valid")
 	private FacebookTokenResponse facebookValidatetoken(@RequestParam String token,
 			@RequestParam("fields") String fields) {
-
-
-
-			String uri = "https://graph.facebook.com/v10.0/me ?access_token=" + token + "&fields=" + fields;
-
-
-
-			return restTemplate.getForObject(uri, FacebookTokenResponse.class);
-			}
-	
+		String uri = "https://graph.facebook.com/v10.0/me ?access_token=" + token + "&fields=" + fields;
+		return restTemplate.getForObject(uri, FacebookTokenResponse.class);
+	}
 
 	@PutMapping("/actividades/{id}")
 	// @ResponseStatus(HttpStatus.CREATED)

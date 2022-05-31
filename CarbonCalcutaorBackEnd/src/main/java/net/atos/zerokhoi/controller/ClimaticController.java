@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 
 import net.atos.zerokhoi.dto.TravelFlights;
 
-@CrossOrigin(origins = {"http://localhost:4200/","https://localhost:4200/"})
+//@CrossOrigin//(origins = {"http://localhost:4200/","https://localhost:4200/"})
 @RestController
 @RequestMapping("/climatic")
 public class ClimaticController {
@@ -34,7 +34,7 @@ public class ClimaticController {
 	}
 
 
-	//http://localhost:8080/climatic/huella
+	
 	@PostMapping(value ="/huella")
 	private  ResponseEntity<?> onbtenerHuella(@RequestBody TravelFlights data) {
 		

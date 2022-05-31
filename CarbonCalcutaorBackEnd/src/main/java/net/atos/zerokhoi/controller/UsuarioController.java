@@ -1,6 +1,6 @@
 package net.atos.zerokhoi.controller;
 
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,7 +65,10 @@ public class UsuarioController {
 	@GetMapping("/usuario/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		Usuario optUsuario = null;
-		
+		/*
+		 * if (optCliente!= null){ return ResponseEntity.ok(optCliente); } else { return
+		 * ResponseEntity.notFound().build(); }
+		 */
 		Map<String, Object> response = new HashMap<>();
 		try {
 
@@ -115,7 +120,8 @@ public class UsuarioController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/usuarios/{id}")	
+	@PutMapping("/usuarios/{id}")
+	// @ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> update(@RequestBody @Valid Usuario usuario, BindingResult result, @PathVariable Long id) {
 
 		Usuario usuarioActual = null;
