@@ -187,7 +187,7 @@ export class ElectricidadComponent implements OnInit {
               this.actividad.categoria = "Electricidad";
               this.actividad.fecha = this.todayWithPipe;
               console.log(this.actividad);
-              this.electricidadService.create(this.actividad).subscribe();
+              this.electricidadService.create(this.actividad,this.userEmail).subscribe();
               Swal.fire('', 'Actividad añadida correctamente', 'success')
 
             } else {
@@ -199,7 +199,7 @@ export class ElectricidadComponent implements OnInit {
               this.actividad.categoria = "Electricidad";
               this.actividad.fecha = this.todayWithPipe;
               console.log(this.actividad);
-              this.electricidadService.create(this.actividad).subscribe();
+              this.electricidadService.create(this.actividad,this.userEmail).subscribe();
               Swal.fire('', 'Actividad añadida correctamente', 'success')
 
             }

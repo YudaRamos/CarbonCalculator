@@ -13,7 +13,7 @@ import { Actividad } from '../bitacora/modelos/actividadElectricidad';
 })
 export class ElectricidadService {
   private urlEndPoint:string ='http://localhost:8080/carbon/huella';
-  private urlEndPointActividad:string ='http://localhost:8080/api/actividades';
+  private urlEndPointActividad:string ='http://localhost:8080/api/actividades?email=';
   private httpHeaders = new HttpHeaders({'Content-Type':'application/json'})
 
   constructor(private http:HttpClient, private router: Router) { }
@@ -50,8 +50,8 @@ export class ElectricidadService {
   }
 
   //Para añadir nuestra activdad a nuestro array
-  create(actividad: Actividad): Observable<Actividad>{
-    return this.http.post(this.urlEndPointActividad, actividad, {headers: this.httpHeaders}).pipe(
+  create(actividad: Actividad, email: string): Observable<Actividad>{
+    return this.http.post(this.urlEndPointActividad + email, actividad, {headers: this.httpHeaders}).pipe(
       map((response: any) => response.actividad as Actividad)
     );
   }

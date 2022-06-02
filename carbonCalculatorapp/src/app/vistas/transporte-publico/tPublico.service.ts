@@ -11,8 +11,8 @@ import { Actividad } from '../bitacora/modelos/actividadTPrivado';
   providedIn: 'root'
 })
 export class transportePublico {
-  private urlEndPoint:string ='http://localhost:8080/carbonfootprint/transpublihuella'; //Es url del back
-  private urlEndPointActividad:string ='http://localhost:8080/api/actividades';
+  private urlEndPoint:string ='http://localhost:8080/carbonfootprint/transpublihuella'; 
+  private urlEndPointActividad:string ='http://localhost:8080/api/actividades?email=';
   private httpHeaders = new HttpHeaders({'Content-Type':'application/json'})
   private httpPara = new HttpHeaders({'Content-Type':'application/json'})
 
@@ -54,9 +54,9 @@ export class transportePublico {
   }
 
     //Para añadir nuestra activdad a nuestro array
-    create(actividad: Actividad): Observable<Actividad>{
-      return this.http.post(this.urlEndPointActividad, actividad, {headers: this.httpHeaders}).pipe(
-        map((response: any) => response.actividad as Actividad)
+    create(actividad: Actividad, email: string): Observable<Actividad>{
+      return this.http.post(this.urlEndPointActividad+email, actividad, {headers: this.httpHeaders}).pipe(
+      map((response: any) => response.actividad as Actividad)
       );
     }
 

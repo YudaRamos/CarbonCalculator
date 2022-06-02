@@ -140,7 +140,7 @@ export class TransportePublicoComponent implements OnInit {
       this.actividad.fecha = this.todayWithPipe;
       this.actividad.categoria = "Transporte Publico";
       console.log(this.actividad);
-      this.publicoService.create(this.actividad).subscribe();
+      this.publicoService.create(this.actividad,this.userEmail).subscribe();
       swal.fire('', 'Actividad añadida correctamente', 'success')
     }
 
