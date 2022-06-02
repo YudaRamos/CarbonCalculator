@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Combustible } from './modelo/combustible';
 import { SizeCar } from './modelo/size';
 import { ViajeCoche } from './modelo/viaje.coche';
@@ -13,8 +12,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-coches',
-  templateUrl: './coches.component.html',
-  styleUrls: ['./coches.component.css']
+  templateUrl: './coches.component.html'
+
 })
 export class CochesComponent implements OnInit {
   titulo: string = "Calcular huella para viaje en transporte privado";
@@ -168,8 +167,8 @@ export class CochesComponent implements OnInit {
         this.viaje.vehicle = this.viaje.combustible + this.tipo;
 
       } else {
-        if (this.viaje.combustible == "Diesel"){
-          this.viaje.combustible= "Dielsel"
+        if (this.viaje.combustible == "Diesel") {
+          this.viaje.combustible = "Dielsel"
         }
         this.viaje.vehicle = this.viaje.size + this.viaje.combustible + this.tipo;
       }
@@ -179,16 +178,8 @@ export class CochesComponent implements OnInit {
       this.calcularMotos();
       return;
     }
-
-    console.log(this.viaje.vehicle);
-    console.log(this.viaje.distance);
-    console.log(this.distancia);
-
-
     this.cocheService.calcularHuella(this.viaje)
       .subscribe(huella => {
-        //    this.router.navigate(['/vuelos'])
-        console.log(huella.carbonEquivalent);
         this.actividad.consumo = huella.carbonEquivalent;
         swal.fire('Huella generada', `La huella generada ha sido de ${huella.carbonEquivalent} Kg`, 'success')
       }
@@ -197,16 +188,10 @@ export class CochesComponent implements OnInit {
 
 
   public calcularMotos(): void {
-
     this.viajeMoto.type = this.viajeMoto.size + this.tipo;
-    console.log(this.viajeMoto.type);
-
-    console.log(this.viajeMoto.distance);
     this.cocheService.calcularHuellaMotos(this.viajeMoto)
       .subscribe(huella => {
-        //this.router.navigate(['/vuelos'])
         this.actividad.consumo = huella.carbonEquivalent;
-        console.log(huella.carbonEquivalent);
         swal.fire('Huella generada', `La huella generada ha sido de ${huella.carbonEquivalent} Kg`, 'success')
       }
       );
@@ -216,13 +201,11 @@ export class CochesComponent implements OnInit {
   public anadir(): void {
     if (this.token == null) {
       swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
-      // this.router.navigate(['/login']);
     } else {
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
       this.actividad.fecha = this.todayWithPipe;
       this.actividad.categoria = "Transporte Privado";
-      console.log(this.actividad);
-      this.cocheService.create(this.actividad,this.userEmail).subscribe();
+      this.cocheService.create(this.actividad, this.userEmail).subscribe();
       swal.fire('', 'Actividad añadida correctamente', 'success')
     }
 

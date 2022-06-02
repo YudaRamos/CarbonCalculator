@@ -2,30 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Tramo } from './modelo/tramo';
 import { Aeropuerto } from './modelo/aeropuerto';
 import { ViajeAvion } from './modelo/viaje.avion';
-import { Huella } from './modelo/huella.calculada';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CarouselModule } from 'primeng/carousel';
 import { VueloService } from './vuelo.service';
 import { AeropuertoService } from './aeropuerto.service';
 import { tap } from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
-
 import swal from 'sweetalert2';
-import { filter } from 'rxjs';
-
 import { Actividad } from '../bitacora/modelos/actividadTPrivado';
 import { DatePipe } from '@angular/common';
-import { AstMemoryEfficientTransformer } from '@angular/compiler';
-import { asLiteral } from '@angular/compiler/src/render3/view/util';
+
 
 @Component({
   selector: 'app-vuelos',
-  templateUrl: './vuelos.component.html',
-  styleUrls: ['./vuelos.component.css']
+  templateUrl: './vuelos.component.html'
+  
 })
 export class VuelosComponent implements OnInit {
+  //variables globales
   titulo: string = "Calcular huella para viaje en avión"
-  soluciones = ["Si no tienes que volar, no vueles. Si tu viaje permite cambiar el avión por el tren hazlo.Si tienes que volar, utiliza una aerolínea responsable que intente proteger el medio ambiente y viaja enaviones grandes(en vez de en chárter privados o aviones pequeños)..",
+  soluciones: string[] = ["Si no tienes que volar, no vueles. Si tu viaje permite cambiar el avión por el tren hazlo.Si tienes que volar, utiliza una aerolínea responsable que intente proteger el medio ambiente y viaja enaviones grandes(en vez de en chárter privados o aviones pequeños)..",
     "Para ahorrar combustible, la mejor longitud de vuelo ha de ser de aproximadamente 4,828 kilómetros.Los vuelos más largos necesitan más combustible,lo que hace que el avión sea más pesado y menos eficiente, por lo que su huella de carbono por kilómetro aumenta.",
     "Cuanto más pesado es tu equipaje, más peso ha de transportar el avión y por lo tanto menos eficiente será su uso de energía. Mantén tu equipaje ligero, lo cual te resultara además mucho más práctico.",
     "Cuantos más pasajeros lleve un avión, más eficiente se vuelve el uso de energía.Un avión puede llevar más pasajeros si la clase business y la clase de primera permite el mayor espacio disponible al resto de los pasajeros, por lo que habrá menor número de pasajeros. Estas secciones puestas al día, dispondrán también de asientos más robustos,que permitirán guardar más equipaje y una mayor numero de facilidades para los pasajeros.",
@@ -85,14 +80,21 @@ export class VuelosComponent implements OnInit {
   userEmail: string;
   fields: string = `name%2Cemail%2Cpicture%2Cfirst_name%2Clast_name`
   consejos: string;
+  origenPath: string;
+  destinoPath: string
+  pasajerosPath: string;
 
   constructor(private router: Router, private cdRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute, private vueloService: VueloService, private aeropuertoService: AeropuertoService
   ) {
     this.consejos = '/assets/consejos-removebg-preview.png';
-   }//
+    this.origenPath='/assets/avion-removebg-preview.png';
+    this.destinoPath='/assets/4524155-removebg-preview.png';
+    this.pasajerosPath='/assets/pasajeros-removebg-preview.png';
+  }
 
   ngOnInit(): void {
+    //si esta logueado
     if (localStorage.length != 0) {
       let token = JSON.parse(localStorage.getItem('token'));
       this.token = token.token
@@ -101,30 +103,36 @@ export class VuelosComponent implements OnInit {
     }
 
   }
+
+  //según el pais de origen y destino se pide al back los aeropuertos 
   getAeropuertosO(event) {
     let changedValue = event.value;
-    this.aeropuertoService.buscarPorPais(this.paisOrigen).pipe(//usamos el tap para asignar los datos al atributo cliente
+    this.aeropuertoService.buscarPorPais(this.paisOrigen).pipe(
       tap(aeropuertos => this.aeropuertosOrigen = aeropuertos))
       .subscribe(
       );
-    console.log(this.aeropuertosOrigen);
-    let domEvent = event.originalEvent;
 
   }
+
   getAeropuertosD(event) {
     let changedValue = event.value;
-    this.aeropuertoService.buscarPorPais(this.paisDestino).pipe(//usamos el tap para asignar los datos al atributo cliente
+    this.aeropuertoService.buscarPorPais(this.paisDestino).pipe(
       tap(aeropuertos => this.aeropuertosDestino = aeropuertos))
       .subscribe(
       );
-    console.log(this.aeropuertosDestino);
-
-    let domEvent = event.originalEvent;
 
   }
+  //un viaje en avión se compone de 1 o varios tramos
+  public newTramo(): void {
+    this.tramo = new Tramo();
+  }
 
+  public addTramo(): void {
+    this.tramos.push(this.tramo);
+    this.tramo = new Tramo();
 
-
+  }
+//método que llama al servicio que se comunica con el back para calcular la huella de un vuelo
   public calcularVuelos(): void {
     this.viajes.legs = this.tramos;
     this.vueloService.calcularHuella(this.viajes)
@@ -139,45 +147,36 @@ export class VuelosComponent implements OnInit {
 
   }
 
-  public newTramo(): void {
-    this.tramo = new Tramo();
-  }
-
-  public addTramo(): void {
-    this.tramos.push(this.tramo);
-    this.tramo = new Tramo();
-
-    ;
-  }
-
+//método para borrar los tramos añadidos 
   delete(): void {
     this.tramos.splice(0, this.tramos.length);
   }
 
-
+//método para añadir la actividad a la bitácora
   public anadir(): void {
+    //se verifica que el usuario esté logueado
     if (this.token == null) {
-      swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
-      // this.router.navigate(['/login']);
+      swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en CarbonCalculator', 'error');     
     } else {
+      //se guarda con la fecha actual 
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
       this.actividad.fecha = this.todayWithPipe;
       this.actividad.categoria = "Vuelo";
       console.log(this.actividad);
-      this.vueloService.create(this.actividad,  this.userEmail).subscribe();
+      this.vueloService.create(this.actividad, this.userEmail).subscribe();
       swal.fire('', 'Actividad añadida correctamente', 'success')
     }
 
 
   }
-
+//método para elegir el texto a mostrar en el carousel
   textoAleatorio() {
     this.randomItem = this.soluciones[Math.floor(Math.random() * this.soluciones.length)];
     return this.randomItem;
   }
 
 
-  ngAfterViewChecked() {   
+  ngAfterViewChecked() {
     this.randomItem = this.textoAleatorio();
     this.cdRef.detectChanges();
 

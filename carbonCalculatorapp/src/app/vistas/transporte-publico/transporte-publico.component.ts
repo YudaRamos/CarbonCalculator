@@ -5,14 +5,13 @@ import swal from 'sweetalert2';
 import { ViajePublico } from './modelo/viaje.publico';
 import { transportePublico } from './tPublico.service';
 import { Actividad } from '../bitacora/modelos/actividadTPrivado';
-import { observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-transporte-publico',
-  templateUrl: './transporte-publico.component.html',
-  styleUrls: ['./transporte-publico.component.css']
+  templateUrl: './transporte-publico.component.html'
+
 })
 export class TransportePublicoComponent implements OnInit {
   titulo: string = "Calcular huella para viaje en transporte publico";
@@ -32,7 +31,6 @@ export class TransportePublicoComponent implements OnInit {
   ];
   tipo: string;
   viaje: ViajePublico = new ViajePublico();
-
   actividad: Actividad = new Actividad();
   today: Date = new Date();
   pipe = new DatePipe('en-EN');
@@ -45,9 +43,6 @@ export class TransportePublicoComponent implements OnInit {
     { name: 'Taxi', code: 'Taxi' },
     { name: 'Autobus', code: 'Coach' },
     { name: 'Tren', code: 'NationalTrain' }
-
-
-
   ];
 
   form = new FormGroup({
@@ -59,7 +54,8 @@ export class TransportePublicoComponent implements OnInit {
   userEmail: string;
   fields: string = `name%2Cemail%2Cpicture%2Cfirst_name%2Clast_name`
   consejos: string;
-  constructor(private router: Router,private cdRef:ChangeDetectorRef, private activatedRoute: ActivatedRoute, private publicoService: transportePublico) {
+
+  constructor(private router: Router, private cdRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private publicoService: transportePublico) {
     this.picMetro = 'assets/metro-removebg-preview.png';
     this.picTaxi = 'assets/taxi-removebg-preview.png';
     this.picBus = 'assets/bus-removebg-preview.png';
@@ -80,12 +76,8 @@ export class TransportePublicoComponent implements OnInit {
     }
   }
 
-
-
-
   //mostramos el formulario según el tipo de transporte
   showForm(tipos: String) {
-
     switch (tipos) {
 
       case 'metro': {
@@ -119,12 +111,9 @@ export class TransportePublicoComponent implements OnInit {
   public calcularTPublico(): void {
 
     this.viaje.type = this.tipo;
-    console.log(this.viaje.type);
     this.viaje.distance = this.form.value.distancia;
-    console.log(this.viaje.distance);
     this.publicoService.calcularHuella(this.viaje)
       .subscribe(huella => {
-        console.log(huella.carbonEquivalent);
         this.actividad.consumo = huella.carbonEquivalent;
         swal.fire('Huella generada', `La huella generada ha sido de ${huella.carbonEquivalent} kg`, 'success')
       }
@@ -134,13 +123,11 @@ export class TransportePublicoComponent implements OnInit {
   public anadir(): void {
     if (this.token == null) {
       swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
-      // this.router.navigate(['/login']);
     } else {
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
       this.actividad.fecha = this.todayWithPipe;
       this.actividad.categoria = "Transporte Publico";
-      console.log(this.actividad);
-      this.publicoService.create(this.actividad,this.userEmail).subscribe();
+      this.publicoService.create(this.actividad, this.userEmail).subscribe();
       swal.fire('', 'Actividad añadida correctamente', 'success')
     }
 
@@ -148,17 +135,16 @@ export class TransportePublicoComponent implements OnInit {
   }
 
   textoAleatorio() {
-    this.randomItem = this.soluciones[Math.floor(Math.random() * this.soluciones.length)];    
+    this.randomItem = this.soluciones[Math.floor(Math.random() * this.soluciones.length)];
     return this.randomItem;
   }
 
 
-  ngAfterViewChecked()
-{
-  this.randomItem= this.textoAleatorio();
-  this.cdRef.detectChanges();
- 
-}
+  ngAfterViewChecked() {
+    this.randomItem = this.textoAleatorio();
+    this.cdRef.detectChanges();
+
+  }
 
 
 }

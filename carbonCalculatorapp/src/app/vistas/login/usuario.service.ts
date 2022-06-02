@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 export class UsuarioService {
     
     private urlEndPoint:string =  'http://localhost:8080/api/usuarios';
+    private urlEndPointU:string =  'http://localhost:8080/api/usuarios/username';
+    
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   
@@ -68,15 +70,13 @@ export class UsuarioService {
            
         )
     }
-    getUsuario(id): Observable<Usuario>{
-      return this.http.get<Usuario>(`${this.urlEndPoint}/${id}`).pipe(
-        catchError(e => {
-          if(this.isNoAutorizado(e)) {
-            return throwError(e);
-          }
-          this.router.navigate(['/usuarios']);
+    getUsuario(email:string): Observable<Usuario>{
+      return this.http.get<Usuario>(`${this.urlEndPointU}/${email}`).pipe(
+        catchError(e => {         
+          //this.router.navigate(['/usuarios']);
           console.error(e.error.mensaje);
           swal.fire('Error al editar', e.error.mensaje,'error');
+          
           return throwError(e);
         })
       );

@@ -6,11 +6,11 @@ import { HeaderComponent } from './vistas/header/header.component';
 import { VuelosComponent } from './vistas/vuelos/vuelos.component';
 import { FormsModule } from '@angular/forms';
 import { VueloService } from './vistas/vuelos/vuelo.service';
-import { AuthServiceService } from './vistas/login/auth.service';
+
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './vistas/login/login.component';
 
-import { SocialAuthServiceConfig, SocialAuthService } from 'angularx-social-login';
+import { SocialAuthServiceConfig } from 'angularx-social-login';
 import { FacebookLoginProvider } from "angularx-social-login";
 import { SocialLoginModule } from 'angularx-social-login';
 
@@ -18,7 +18,7 @@ import { SocialLoginModule } from 'angularx-social-login';
 
 
 import { HomeComponent } from './vistas/home/home.component';
-import { RegistroComponent } from './vistas/registro/registro.component';
+
 import { CochesComponent } from './vistas/coches/coches.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -31,11 +31,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TransportePublicoComponent } from './vistas/transporte-publico/transporte-publico.component';
 import { ElectricidadComponent } from './vistas/electricidad/electricidad.component';
-import { SolucionesComponent } from './vistas/soluciones/soluciones.component';
+
 import { CarouselModule } from 'primeng/carousel';
 import { BitacoraComponent } from './vistas/bitacora/bitacora.component';
-import { UsuariosComponent } from './vistas/usuarios/usuarios.component';
-import { UsuarioService } from './vistas/usuarios/usuario.service';
+
+import { UsuarioService } from './vistas/login/usuario.service';
 import localeES from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
 
@@ -46,15 +46,11 @@ const routes: Routes = [
   { path: 'vuelos', component: VuelosComponent },
   { path: 'login', component: LoginComponent },
   { path: 'coches', component: CochesComponent },
-  { path: 'electricidad', component: ElectricidadComponent },
-  { path: 'registro', component: RegistroComponent },
+  { path: 'electricidad', component: ElectricidadComponent }, 
   { path: 'transportePublico', component: TransportePublicoComponent },
-  { path: 'electricidad', component: ElectricidadComponent },
-  { path: 'soluciones', component: SolucionesComponent },
+  { path: 'electricidad', component: ElectricidadComponent }, 
   { path: 'bitacora', component: BitacoraComponent },
-  { path: 'usuarios', component: UsuariosComponent },
-  { path: 'usuarios/form', component: RegistroComponent },
-  { path: 'usuarios/form/:id', component: RegistroComponent }
+ 
 
 ];
 
@@ -67,14 +63,8 @@ const routes: Routes = [
     HomeComponent,
     CochesComponent,
     TransportePublicoComponent,
-    ElectricidadComponent,
-    RegistroComponent,
-    SolucionesComponent,
+    ElectricidadComponent,    
     BitacoraComponent,
-    UsuariosComponent,
-
-
-
   ],
   imports: [
     RouterModule.forRoot(routes),

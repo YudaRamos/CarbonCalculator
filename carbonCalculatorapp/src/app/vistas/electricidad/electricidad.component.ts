@@ -3,21 +3,19 @@ import { electricidadConsumo } from './modelo/electricidad.consumo';
 import { ElectricidadService } from './electricidad.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { DropdownModule } from 'primeng/dropdown';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Electrodomestico } from './modelo/electrodomestico';
 import { Actividad } from '../bitacora/modelos/actividadElectricidad';
 import { DatePipe } from '@angular/common';
-import { huellaGenerada } from './modelo/huella.generada';
 import { BitacoraService } from '../bitacora/bitacora.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-electricidad',
-  templateUrl: './electricidad.component.html',
-  styleUrls: ['./electricidad.component.css']
+  templateUrl: './electricidad.component.html'
 })
 export class ElectricidadComponent implements OnInit {
+
+  //variables globales
   titulo: string = "Calcular huella para el consumo de la Electricidad";
   consumoTotal: number = 0;
   pais: string;
@@ -28,6 +26,7 @@ export class ElectricidadComponent implements OnInit {
   actividad: Actividad = new Actividad();
   today: Date = new Date();
   pipe = new DatePipe('en-EN');
+  consejos: string;
   todayWithPipe = null;
   soluciones = ["Desconecta todos los cargadores de electricidad si no los estás utilizando o no necesitas tener tus aparatos conectados.Aunque los cargadores no están en uso directo siguen consumiendo energía y contribuyen al calentamiento global, por eso se llaman “vampiros de energía”",
     "Utiliza solamente el agua que sea imprescindible. ¡No gastes agua de más! Haz lo mismo con la luz o, mejor dicho, con toda la energía. No hay razón para gastar estos recursos más de lo necesario.",
@@ -96,7 +95,7 @@ export class ElectricidadComponent implements OnInit {
       'Vitroceramica'
 
     ];
-  consejos: string;
+
   constructor(private router: Router, private cdRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute, private electricidadService: ElectricidadService, private bitacoraService: BitacoraService) {
     this.consejos = '/assets/consejos-removebg-preview.png';
@@ -109,15 +108,9 @@ export class ElectricidadComponent implements OnInit {
       let userEmail = JSON.parse(localStorage.getItem('user'));
       this.userEmail = userEmail.username;
     }
-
-
   }
 
-
-
-
   public addConsumo(): void {
-
     this.electrodomesticosAnanidos.push(this.electrodomestico);
     this.electrodomestico = new Electrodomestico();
 
@@ -128,7 +121,6 @@ export class ElectricidadComponent implements OnInit {
   }
 
   public calcularElectricidad(): void {
-
     if (this.electrodomesticosAnanidos.length == 0) {
 
       this.electricidad.electricity_value = this.electrodomestico.electricity_value;
@@ -172,7 +164,6 @@ export class ElectricidadComponent implements OnInit {
   public anadir(): void {
     if (this.token == null) {
       Swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
-      // this.router.navigate(['/login']);
     } else {
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
       console.log(this.token, this.fields);
@@ -187,7 +178,7 @@ export class ElectricidadComponent implements OnInit {
               this.actividad.categoria = "Electricidad";
               this.actividad.fecha = this.todayWithPipe;
               console.log(this.actividad);
-              this.electricidadService.create(this.actividad,this.userEmail).subscribe();
+              this.electricidadService.create(this.actividad, this.userEmail).subscribe();
               Swal.fire('', 'Actividad añadida correctamente', 'success')
 
             } else {
@@ -199,7 +190,7 @@ export class ElectricidadComponent implements OnInit {
               this.actividad.categoria = "Electricidad";
               this.actividad.fecha = this.todayWithPipe;
               console.log(this.actividad);
-              this.electricidadService.create(this.actividad,this.userEmail).subscribe();
+              this.electricidadService.create(this.actividad, this.userEmail).subscribe();
               Swal.fire('', 'Actividad añadida correctamente', 'success')
 
             }
@@ -208,12 +199,10 @@ export class ElectricidadComponent implements OnInit {
 
       );
 
-
-
     }
-
-
   }
+
+
   textoAleatorio() {
     this.randomItem = this.soluciones[Math.floor(Math.random() * this.soluciones.length)];
     return this.randomItem;
@@ -223,7 +212,6 @@ export class ElectricidadComponent implements OnInit {
   ngAfterViewChecked() {
     this.randomItem = this.textoAleatorio();
     this.cdRef.detectChanges();
-
   }
 
 }

@@ -4,9 +4,15 @@
 
     <form #vuelosForm="ngForm">
       <div class="form-group row">
-        <label for="origen" class="col-form-label  col-lg-3 col-sm-12">Origen</label>
+
+
+        <div class="card-body" >
+          <label for="pasajeros" >Origen</label>
+          <img src={{origenPath}} class="card-img-top" alt="..." style="width:125px;height: 125px;">
+        </div>
+        
         <div class="col-lg-3 col-sm-12">
-          <p-dropdown [options]="paises" placeholder="Elige el pais" optionLabel="name" [showClear]="true"
+          <p-dropdown [options]="paises" placeholder="Elige el pais de origen" optionLabel="name" [showClear]="true"
             optionValue="name" [(ngModel)]="paisOrigen" name="pais" (onChange)="getAeropuertosO($event)"
             [required]="true"></p-dropdown>
 
@@ -20,9 +26,14 @@
       </div>
 
       <div class="form-group row">
-        <label for="destino" class="col-form-label col-lg-3 col-sm-12">Destino</label>
+        <div class="card-body" >
+          <label for="destino" >Destino</label>
+           <img src={{destinoPath}} class="card-img-top" alt="..." style="width:125px;height: 125px;">
+        </div>
+       
+        
         <div class="col-lg-3 col-sm-12">
-          <p-dropdown [options]="paises" placeholder="Elige el pais" optionLabel="name" [showClear]="true"
+          <p-dropdown [options]="paises" placeholder="Elige el pais de destino" optionLabel="name" [showClear]="true"
             optionValue="name" [(ngModel)]="paisDestino" name="pais" (onChange)="getAeropuertosD($event)"
             [required]="true"></p-dropdown>
 
@@ -36,12 +47,17 @@
       </div>
 
       <div class="form-group row">
-      
-        <label for="pasajeros" class="col-form-label col-lg-3 col-sm-12">Pasajeros</label>
+        <div class="card-body"> 
+          <label for="pasajeros" >Pasajeros</label>
+           <img src={{pasajerosPath}} class="card-img-top" alt="..." style="width:125px;height: 125px;">
+        </div>
+       
+       
         <div class="col-lg-3 col-sm-12">
 
           <p-inputNumber [(ngModel)]="tramo.passengers" name="pasajeros" [required]="true" [min]="0"></p-inputNumber>
         </div>
+        <div class="col-lg-3 col-sm-12"></div>
       </div>
 
       <div class="col-lg-12 col-sm-12" *ngIf="!vuelosForm.form.valid">Todos los campos deben de estar rellenos</div>

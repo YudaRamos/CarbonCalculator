@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Actividad } from './modelos/actividad';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs';
-import { formatDate, DatePipe } from '@angular/common';
+import {  DatePipe } from '@angular/common';
 import { FacebookTokenResponse } from './modelos/data';
 
 @Injectable({
@@ -24,8 +24,7 @@ export class BitacoraService {
       map(response => {
         let actividades = response as Actividad[];
         return actividades.map(actividad => {
-          let datePipe = new DatePipe('es');
-         // actividad.fecha = new Date(datePipe.transform(actividad.fecha, 'EEEE, MMMM d, y'));
+          let datePipe = new DatePipe('es');  
 
           actividad.fecha = datePipe.transform(actividad.fecha,'EEE dd/MMM/yyyy');
           return actividad;

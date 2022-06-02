@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../usuarios/usuario';
-import { UsuarioService } from '../usuarios/usuario.service';
+import { Usuario } from './usuario';
+import { UsuarioService } from './usuario.service';
 import swal from 'sweetalert2';
 
-import { AuthServiceService } from './auth.service';
+
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { SocialAuthService, FacebookLoginProvider, SocialUser } from 'angularx-social-login';
 
 
@@ -13,84 +13,65 @@ import { SocialAuthService, FacebookLoginProvider, SocialUser } from 'angularx-s
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
-})
 
+})
 export class LoginComponent implements OnInit {
-  titulo: string = 'Inicia sesión!';
-  public usuario: Usuario = new Usuario();  
+  //variables globales
+  public usuario: Usuario = new Usuario();
   public errores: string[] = [];
-  loginForm: FormGroup;
   socialUser: SocialUser;
   isLoggedin: boolean = null;
   username: string;
-
-  constructor(private authService: AuthServiceService, private router: Router, private formBuilder: FormBuilder,
-    private socialAuthService: SocialAuthService,private usuarioService: UsuarioService,) {
+  ImagePath: string;
+  //inyectamos los sericios necesarios en el constructor
+  constructor( private router: Router, private formBuilder: FormBuilder,
+    private socialAuthService: SocialAuthService, private usuarioService: UsuarioService,) {
     this.usuario = new Usuario();
+    this.ImagePath = '/assets/login-removebg-preview.png';
   }
 
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe(user => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
-
-      console.log(this.isLoggedin);
+      //al loguearse el usuario guardamos sus datos en el localStorage junto al token
       if (this.isLoggedin) {
-        console.log(this.socialUser.authToken);
         localStorage.setItem('token', JSON.stringify({ token: this.socialUser.authToken }));
         localStorage.setItem('user', JSON.stringify({ username: this.socialUser.email }));
-        localStorage.setItem('name', JSON.stringify({ name: this.socialUser.name }));    
-        
+        localStorage.setItem('name', JSON.stringify({ name: this.socialUser.name }));
+        //se llama al metodo para registrar el usuario 
         this.create();
       }
+
     });
-  
+
+
+
   }
 
   loginWithFacebook(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);     
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
     this.router.navigate(['/']);
   }
 
 
-
-  signOut(): void {
-    this.socialAuthService.signOut();
-    localStorage.clear();    
-  }
-
-
-  login(): void {
-    console.log(this.usuario);
-    if (this.usuario.nombre == null || this.usuario.password == null) {
-      swal.fire('Error Login', 'username o password vacías!', 'error');
-      return;
-    }
-
-    this.authService.login(this.usuario).subscribe(response => {
-      console.log(response);
-      this.router.navigate(['/usuarios']);
-      swal.fire('Login', `Hola ${response.nombre}, has iniciado sesion con exito`, 'success')
-    })
-  }
-
   create(): void {
-    this.usuario.nombre=this.socialUser.firstName; 
-    this.usuario.email=this.socialUser.email;
-    this.usuario.password="FACEBOOK";
+    //se setean los datos al usuario 
+    this.usuario.nombre = this.socialUser.firstName;
+    this.usuario.email = this.socialUser.email;
+    this.usuario.password = "FACEBOOK";
+    //se llama al servicio
     this.usuarioService.create(this.usuario)
       .subscribe(usuario => {
-        //this.router.navigate(['/usuarios'])
-        swal.fire('Nuevo cliente', `El cliente ${usuario.nombre} ha sido creado con exito`, 'success')
+        if (usuario != undefined) {
+          swal.fire('Nuevo cliente', `El cliente ${usuario.nombre} ha sido creado con exito`, 'success')
+        }
         this.router.navigate(['/'])
-      }/*,err => {
+      }, err => {
         this.errores = err.error.errors as string[];
-        console.error('Codigo del error desde el backend: ' +err.status);
+        console.error('Codigo del error desde el backend: ' + err.status);
         console.error(err.error.errors);
       }
-       */
-      
       );
   }
 

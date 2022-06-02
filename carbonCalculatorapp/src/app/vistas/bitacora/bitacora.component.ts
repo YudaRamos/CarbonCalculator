@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { BitacoraService } from './bitacora.service';
-import { pipe, tap } from 'rxjs';
+import {  tap } from 'rxjs';
 import { Actividad } from './modelos/actividad';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -9,8 +8,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-bitacora',
-  templateUrl: './bitacora.component.html',
-  styleUrls: ['./bitacora.component.css']
+  templateUrl: './bitacora.component.html'
+
 })
 export class BitacoraComponent implements OnInit {
 

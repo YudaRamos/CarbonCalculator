@@ -1,15 +1,13 @@
 import { AfterContentChecked, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Button } from 'primeng/button';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  templateUrl: './home.component.html',  
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit, AfterContentChecked{
-  title = 'Bienvenido a Zerokhoi';
+  title = 'Bienvenido a CarbonCalculator';
   curiosidades = ["Las emisiones anuales de carbono por usuario rondan los 299 gramos de CO2.",
     "Enviar 65 mensajes de correo electrónico equivale aproximadamente a conducir un kilómetro en coche. Cada día se envían unos 280.000 millones.",
     "Cada búsqueda en Google supone al menos una emisión de 0,2 gramos de dióxido de carbono.",
