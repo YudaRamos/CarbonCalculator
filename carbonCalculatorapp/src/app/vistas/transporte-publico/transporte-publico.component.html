@@ -77,8 +77,8 @@
         <div class="form-group row">
             <label for="pasajeros" class="col-form-label col-lg-2 col-sm-12">Distancia en Km:</label>
             <div class="col-lg-6 col-sm-12">
-                <input type="number" class="form-control" formControlName="distancia">
- 
+                <input type="number" class="form-control" [required]="true" [min]="0" formControlName="distancia">
+              
 
             </div>
         </div>
