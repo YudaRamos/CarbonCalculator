@@ -168,6 +168,9 @@ export class CochesComponent implements OnInit {
         this.viaje.vehicle = this.viaje.combustible + this.tipo;
 
       } else {
+        if (this.viaje.combustible == "Diesel"){
+          this.viaje.combustible= "Dielsel"
+        }
         this.viaje.vehicle = this.viaje.size + this.viaje.combustible + this.tipo;
       }
     }
