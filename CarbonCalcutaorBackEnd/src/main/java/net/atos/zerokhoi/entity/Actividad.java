@@ -44,7 +44,7 @@ public class Actividad implements Serializable{
 	
 	@Column(nullable= false)
 	@NotEmpty
-	private Long consumo;
+	private Double consumo;
 	
 	
 	@ManyToOne()

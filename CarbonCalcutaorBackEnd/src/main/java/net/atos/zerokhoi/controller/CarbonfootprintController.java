@@ -40,8 +40,8 @@ public class CarbonfootprintController {
 
         //headers.set( "X-RapidAPI-Key", "2ef8e71aedmshb5c9e4fb4992e53p144fc7jsn7a6e0982b183");
 
-        headers.set( "X-RapidAPI-Key", "7da3bdf4b8msh616c8efd8873a43p1d301ejsn5428b531df98");
-       // bd3ed9f383mshad347e2419e9e87p12c23ejsnd57f22376f25  //mia bd3ed9f383mshad347e2419e9e87p12c23ejsnd57f22376f25
+        headers.set( "X-RapidAPI-Key", " eaaa477221msh902c8b340f15c73p1bc255jsnb2bf0051f448");
+       // bd3ed9f383mshad347e2419e9e87p12c23ejsnd57f22376f25  //mia bd3ed9f383mshad347e2419e9e87p12c23ejsnd57f22376f25 //7da3bdf4b8msh616c8efd8873a43p1d301ejsn5428b531df98
 
        
         //Create a new HttpEntity
@@ -63,7 +63,7 @@ public class CarbonfootprintController {
         // example of custom header
         headers.set( "X-RapidAPI-Host","carbonfootprint1.p.rapidapi.com");
 
-        headers.set( "X-RapidAPI-Key", "7da3bdf4b8msh616c8efd8873a43p1d301ejsn5428b531df98");
+        headers.set( "X-RapidAPI-Key", " eaaa477221msh902c8b340f15c73p1bc255jsnb2bf0051f448");
 
         //Create a new HttpEntity
         final HttpEntity<String> entity = new HttpEntity<String>(headers);		
@@ -86,7 +86,7 @@ public class CarbonfootprintController {
         // example of custom header
         headers.set( "X-RapidAPI-Host","carbonfootprint1.p.rapidapi.com");
 
-        headers.set( "X-RapidAPI-Key", "7da3bdf4b8msh616c8efd8873a43p1d301ejsn5428b531df98");
+        headers.set( "X-RapidAPI-Key", " eaaa477221msh902c8b340f15c73p1bc255jsnb2bf0051f448");
 
         //Create a new HttpEntity
         final HttpEntity<String> entity = new HttpEntity<String>(headers);		
