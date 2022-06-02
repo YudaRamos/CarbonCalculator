@@ -31,44 +31,53 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-
-
 import net.atos.zerokhoi.entity.Usuario;
 import net.atos.zerokhoi.service.UsuarioService;
 
-@CrossOrigin(origins = { "http://localhost:4200","https://localhost:4200/" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://localhost:4200/" })
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	private final RestTemplate restTemplate;
 
 	@Autowired
-	public UsuarioController(RestTemplate restTemplate) {	
+	public UsuarioController(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
 
-
-	
 	@GetMapping("/usuarios")
 	public List<Usuario> index() {
 		return usuarioService.findAll();
 	}
-	
+
 	@GetMapping("/username")
-	public Usuario obtenerPorEmail(@RequestParam("email") String email) {
-		return this.usuarioService.findByEmail(email);
+	public ResponseEntity<?> obtenerPorEmail(@RequestParam("email") String email) {
+		Usuario optUsuario = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			optUsuario = usuarioService.findByEmail(email);
+
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta  en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (optUsuario == null) {
+			response.put("mensaje",
+					"El cliente ID: ".concat(email.toString()).concat(" no existe en la base de datos"));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+		}
+		return new ResponseEntity<Usuario>(optUsuario, HttpStatus.OK);
 	}
 
 	@GetMapping("/usuario/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		Usuario optUsuario = null;
-		/*
-		 * if (optCliente!= null){ return ResponseEntity.ok(optCliente); } else { return
-		 * ResponseEntity.notFound().build(); }
-		 */
+
 		Map<String, Object> response = new HashMap<>();
 		try {
 
@@ -95,7 +104,8 @@ public class UsuarioController {
 	public ResponseEntity<?> create(@RequestBody @Valid Usuario usuario, BindingResult result) {
 		Map<String, Object> response = new HashMap<>();
 		Usuario usuarioNew = null;
-		// EN CASO DE QUE HAYA ERRORES EN LA VAILDACIÓN SE MUESTRAN EN LA RESPUESTA
+		Usuario optUsuario = null;
+
 		if (result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors().stream()
@@ -105,23 +115,34 @@ public class UsuarioController {
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
+		// buscamos el usuario por el email en la base de datos
 
 		try {
-			usuarioNew = usuarioService.save(usuario);
+			optUsuario = usuarioService.findByEmail(usuario.getEmail());
 
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al insertar en la base de datos");
+			response.put("mensaje", "Error al realizar la consulta  en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		if (optUsuario == null) {
+			response.put("mensaje","El cliente ID: ".concat(usuario.getEmail()).concat(" no existe en la base de datos"));
+			// si no existe lo creamos
 
-		response.put("mensaje", "El cliente ha sido creado con éxito");
-		response.put("usuario", usuarioNew);
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+			usuarioNew = usuarioService.save(usuario);
+
+			response.put("mensaje", "El cliente ha sido creado con éxito");
+			response.put("usuario", usuarioNew);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+
+		} else {
+			response.put("mensaje", "Bienvenido " + optUsuario.getNombre());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		}
+
 	}
 
 	@PutMapping("/usuarios/{id}")
-	// @ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> update(@RequestBody @Valid Usuario usuario, BindingResult result, @PathVariable Long id) {
 
 		Usuario usuarioActual = null;
@@ -167,7 +188,6 @@ public class UsuarioController {
 	}
 
 	@DeleteMapping("/usuarios/{id}")
-	// @ResponseStatus(HttpStatus.NO_CONTENT) // un 204
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 

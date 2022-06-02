@@ -23,7 +23,6 @@ import lombok.Data;
 @Entity
 @Table(name="actividades")
 @Data
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="id")
 public class Actividad implements Serializable{
 	/**
 	 * 

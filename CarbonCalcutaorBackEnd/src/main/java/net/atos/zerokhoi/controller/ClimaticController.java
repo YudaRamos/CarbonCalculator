@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ import com.google.gson.Gson;
 
 import net.atos.zerokhoi.dto.TravelFlights;
 
-//@CrossOrigin//(origins = {"http://localhost:4200/","https://localhost:4200/"})
+//@CrossOrigin(origins = {"http://localhost:4200/","https://localhost:4200/"})
 @RestController
 @RequestMapping("/climatic")
 public class ClimaticController {
@@ -33,23 +32,25 @@ public class ClimaticController {
 		this.restTemplate = restTemplate;
 	}
 
-
-	
-	@PostMapping(value ="/huella")
-	private  ResponseEntity<?> onbtenerHuella(@RequestBody TravelFlights data) {
-		
-
+	/**
+	 * Método para calcular la huella de carbono de un viaje en avion
+	 * 
+	 * @param TravelFlights data son los datos del vuelo recibidos del front
+	 * @return response la huella generada
+	 */
+	@PostMapping(value = "/huella")
+	private ResponseEntity<?> onbtenerHuella(@RequestBody TravelFlights data) {
+		//url del API de Climatic
 		String uri = "https://beta3.api.climatiq.io/travel/flights";
-		// Set the headers you need send
 		final HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", "application/json");
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-		// example of custom header
+		//en la cabecera debe ir el API key
 		headers.set("Authorization", "Bearer 6CZHVT9SWWMMPHQ87YPWRF89TB3D");
 
 		Gson gson = new Gson();
 		String representacionJSON = gson.toJson(data);
-		// Create a new HttpEntity
+
 		final HttpEntity<String> entity = new HttpEntity<String>(representacionJSON, headers);
 
 		ResponseEntity<Map> response = restTemplate.postForEntity(uri, entity, Map.class);

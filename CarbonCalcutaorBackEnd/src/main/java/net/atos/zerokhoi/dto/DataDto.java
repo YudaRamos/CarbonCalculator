@@ -13,24 +13,6 @@ public class DataDto implements Serializable{
 	private  String id;
 	private String type;
 	private AtributesDto attributes;
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public AtributesDto getAttributes() {
-		return attributes;
-	}
-	public void setAttributes(AtributesDto attributes) {
-		this.attributes = attributes;
-	}
 	
 
 }

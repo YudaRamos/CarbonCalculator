@@ -152,7 +152,12 @@ public class ActividadController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
 	}
-
+	/**
+	 * Método para validar el token de acceso generado por facebook
+	 * @param String token es el token desde angular genrado con el social login de facebook
+	 * @param String fields es un string fijo pero necesario en la url
+	 * @return devuelve un dto con los datos del usuario que devuelve el  API Graph
+	 * */ 
 	@GetMapping(value = "/valid")
 	private FacebookTokenResponse facebookValidatetoken(@RequestParam String token,
 			@RequestParam("fields") String fields) {
@@ -160,8 +165,7 @@ public class ActividadController {
 		return restTemplate.getForObject(uri, FacebookTokenResponse.class);
 	}
 
-	@PutMapping("/actividades/{id}")
-	// @ResponseStatus(HttpStatus.CREATED)
+	@PutMapping("/actividades/{id}")	
 	public ResponseEntity<?> update(@RequestBody @Valid Actividad actividad, BindingResult result,
 			@PathVariable Long id) {
 
