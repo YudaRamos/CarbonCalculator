@@ -1,5 +1,4 @@
 # CarbonCalculator
-### Screenshot
 ![Image text](https://raw.githubusercontent.com/YudaRamos/CarbonCalculator/main/principal.jpg?token=GHSAT0AAAAAABVAGVAEOIGKRIREYHICDBNQYUZYJYQ)
 ## Table of Contents
 1. [General Info](#general-info)
@@ -36,13 +35,13 @@ $ npm install
 $ Then to execute the program from Visual Studio Code, the following command must be used:
 $ ng serve --ssl true --ssl-key localhost.key --ssl-cert localhost.crt
 ```
-***
+
 And so you can access the application by entering the following url in the browser of your choice (Google Chrome, Microsoft Edge, Firefox...etc.): 
 * https://localhost:4200.
 The application has implemented the social login through Facebook and the test user is shown below:
 * Username: **dctocycfql_1653651542@tfbnw.net**
 * Password: **Password1234@**
-***
+
 ##### Spring Boot System Requirements:
 
 * In Spring Boot everything is done with Java, so the Java Runtime Environment (Java platform) is the main software component for the framework to work.
@@ -55,7 +54,7 @@ Eclipse was used as an integrated development environment, open source and multi
 #####  Hardware resources
 * Processor: any current Intel or AMD microprocessor, although for this case an Intel CORE i5 7th Gen was used.
 * Memory: About 8GB could be enough, in this case we have 16 GB of RAM.
-***
+
 ## Collaboration
 ***
 Contributions are what make the open source community an amazing place to learn, inspire and create. Any contributions you make are greatly appreciated.
@@ -67,4 +66,4 @@ Don’t forget to give the project a star. Thanks again!
 * Commit your changes ``` git commit -m 'Fantastic functionality added' ```
 * Push the branch ``` git push origin FantasticFunctionality ```
 * Open a Pull Request
-***
+
