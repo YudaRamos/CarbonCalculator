@@ -23,54 +23,47 @@ A list of technologies used within the project:
 * [Typescript](https://www.typescriptlang.org/): Version 4.6.3
 * [Bootstrap](https://getbootstrap.com/): Version 5.2.0
 * [PrimeNG](https://www.primefaces.org/primeng/): Version 13.4.0
+* [VS Code](https://visualstudio.microsoft.com/es/): Versión 17.2
+* [Eclipse](https://www.eclipse.org/downloads/): Version: 2022-03 (4.23.0)
+* [H2 Database](https://www.h2database.com/html/main.html)
 ## Installation
 ***
 A little intro about the installation. 
 ```
-$ git clone https://example.com
-$ cd ../path/to/the/file
+$ git clone https://github.com/YudaRamos/CarbonCalculator.git
+$ cd  CarbonCalculator/carbonCalculatorapp
 $ npm install
-$Then to execute the program from Visual Studio Code, the following command must be used:
+$ Then to execute the program from Visual Studio Code, the following command must be used:
 $ ng serve --ssl true --ssl-key localhost.key --ssl-cert localhost.crt
 ```
+***
 And so you can access the application by entering the following url in the browser of your choice (Google Chrome, Microsoft Edge, Firefox...etc.): https://localhost:4200.
 The application has implemented the social login through Facebook and the test user is shown below:
-Username: dctocycfql_1653651542@tfbnw.net
-Password: Password1234@
+Username: **dctocycfql_1653651542@tfbnw.net**
+Password: **Password1234@**
 ***
-###Spring Boot System Requirements
+### Spring Boot System Requirements:
 
-*In Spring Boot everything is done with Java, so the Java Runtime Environment (Java platform) is the main software component for the framework to work.
-*Since this application is not only run but also used for development with Java, at least version 8 (in this case version 11 was used) of the so-called Java Development Kit (JDK) is required.
-*It also requires that we have the current version of the Spring framework installed on the system.
-*As a dependency manager we can use Maven (as of 3.3) or Gradle (as of 4.4). In this case Maven was chosen.
+* In Spring Boot everything is done with Java, so the Java Runtime Environment (Java platform) is the main software component for the framework to work.
+* Since this application is not only run but also used for development with Java, at least version 8 (in this case version 11 was used) of the so-called Java Development Kit (JDK) is required.
+* It also requires that we have the current version of the Spring framework installed on the system.
+* As a dependency manager we can use Maven (as of 3.3) or Gradle (as of 4.4). In this case Maven was chosen.
 
 Eclipse was used as an integrated development environment, open source and multiplatform, whose main use is to serve as a programming, compilation and debugging platform for a host of programming languages. Although its most widespread function is to be used to program in Java, its modularity allows its set of tools to be extended to serve as a base for programming in C or Python, among many others.
 
-###Hardware resources
-*Processor: any current Intel or AMD microprocessor, although for this case an Intel CORE i5 7th Gen was used.
-*Memory: About 8GB could be enough, in this case we have 16 GB of RAM.
+### Hardware resources
+* Processor: any current Intel or AMD microprocessor, although for this case an Intel CORE i5 7th Gen was used.
+* Memory: About 8GB could be enough, in this case we have 16 GB of RAM.
 ***
-Side information: To use the application in a special environment use ```lorem ipsum``` to start
 ## Collaboration
 ***
-Give instructions on how to collaborate with your project.
-> Maybe you want to write a quote in this part. 
-> It should go over several rows?
-> This is how you do it.
-## FAQs
+Contributions are what make the open source community an amazing place to learn, inspire and create. Any contributions you make are greatly appreciated.
+If you have a suggestion to improve this, please fork over the repo and create a pull request. You can also open an issue with the hashtag #improvement.
+Don’t forget to give the project a star. Thanks again!
+
+> Fork the project
+> Create your feature branch (``` git checkout -b FantasticFunctionality ```)
+> Commit your changes (``` git commit -m 'Fantastic functionality added' ```)
+> Push the branch (``` git push origin FantasticFunctionality ```)
+> Open a Pull Request
 ***
-A list of frequently asked questions
-1. **This is a question in bold**
-Answer of the first question with _italic words_. 
-2. __Second question in bold__ 
-To answer this question we use an unordered list:
-* First point
-* Second Point
-* Third point
-3. **Third question in bold**
-Answer of the third question with *italic words*.
-4. **Fourth question in bold**
-| Headline 1 in the tablehead | Headline 2 in the tablehead | Headline 3 in the tablehead |
-|:--------------|:-------------:|--------------:|
-| text-align left | text-align center | text-align right |
