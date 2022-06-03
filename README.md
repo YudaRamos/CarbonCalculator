@@ -42,7 +42,7 @@ The application has implemented the social login through Facebook and the test u
 * Username: **dctocycfql_1653651542@tfbnw.net**
 * Password: **Password1234@**
 
-##### Spring Boot System Requirements:
+** Spring Boot System Requirements:
 
 * In Spring Boot everything is done with Java, so the Java Runtime Environment (Java platform) is the main software component for the framework to work.
 * Since this application is not only run but also used for development with Java, at least version 8 (in this case version 11 was used) of the so-called Java Development Kit (JDK) is required.
@@ -51,7 +51,7 @@ The application has implemented the social login through Facebook and the test u
 
 Eclipse was used as an integrated development environment, open source and multiplatform, whose main use is to serve as a programming, compilation and debugging platform for a host of programming languages. Although its most widespread function is to be used to program in Java, its modularity allows its set of tools to be extended to serve as a base for programming in C or Python, among many others.
 
-#####  Hardware resources
+** Hardware resources
 * Processor: any current Intel or AMD microprocessor, although for this case an Intel CORE i5 7th Gen was used.
 * Memory: About 8GB could be enough, in this case we have 16 GB of RAM.
 
