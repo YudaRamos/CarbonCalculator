@@ -163,7 +163,7 @@ export class ElectricidadComponent implements OnInit {
 
   public anadir(): void {
     if (this.token == null) {
-      Swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
+      Swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en CarbonCalculator', 'error');
     } else {
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
       console.log(this.token, this.fields);

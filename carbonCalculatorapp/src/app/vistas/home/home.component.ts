@@ -3,7 +3,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',  
+  templateUrl: './home.component.html', 
+  styleUrls: ['./home.component.css'] ,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit, AfterContentChecked{
@@ -21,9 +22,17 @@ export class HomeComponent implements OnInit, AfterContentChecked{
     "En el 2015, los principales emisores de dióxido de carbono (CO2) fueron China, Estados Unidos, la Unión Europea, India, Rusia y Japón."];
 
    sabias:string
+   principalPath: string
+   foto1: string 
+   foto2: string
+   foto3:string
    randomItem: string; 
   constructor(private cdRef: ChangeDetectorRef) {
     this.sabias= '/assets/sabiasss-removebg-preview.png';
+    this.principalPath= '/assets/principal.jpg';
+    this.foto1 =  '/assets/istockphoto-875081324-2048x2048-removebg-preview.png';
+    this.foto2 =  '/assets/fondo-removebg-preview.png';
+    this.foto3 =  '/assets/Calculadoras_def-removebg-preview.png';
    }
 
 

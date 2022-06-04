@@ -122,7 +122,7 @@ export class TransportePublicoComponent implements OnInit {
 
   public anadir(): void {
     if (this.token == null) {
-      swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en Zerokhoi', 'error');
+      swal.fire('', 'Para registrar una bitácora de actividades debe estar logueado en CarbonCalculator', 'error');
     } else {
       this.todayWithPipe = this.pipe.transform(Date.now(), 'yyyy-MM-dd');
       this.actividad.fecha = this.todayWithPipe;

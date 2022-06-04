@@ -20,6 +20,7 @@ import { SocialLoginModule } from 'angularx-social-login';
 import { HomeComponent } from './vistas/home/home.component';
 
 import { CochesComponent } from './vistas/coches/coches.component';
+
 import { DropdownModule } from 'primeng/dropdown';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonModule } from 'primeng/button';
@@ -38,6 +39,7 @@ import { BitacoraComponent } from './vistas/bitacora/bitacora.component';
 import { UsuarioService } from './vistas/login/usuario.service';
 import localeES from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
+
 
 registerLocaleData(localeES, 'es');
 const routes: Routes = [
@@ -64,7 +66,7 @@ const routes: Routes = [
     CochesComponent,
     TransportePublicoComponent,
     ElectricidadComponent,    
-    BitacoraComponent,
+    BitacoraComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
