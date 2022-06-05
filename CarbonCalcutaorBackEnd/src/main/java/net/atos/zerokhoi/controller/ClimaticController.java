@@ -21,11 +21,11 @@ import com.google.gson.Gson;
 
 import net.atos.zerokhoi.dto.TravelFlights;
 
-//@CrossOrigin(origins = {"http://localhost:4200/","https://localhost:4200/"})
+@CrossOrigin(origins = {"http://localhost:4200/","https://localhost:4200/"})
 @RestController
 @RequestMapping("/climatic")
 public class ClimaticController {
-	private final RestTemplate restTemplate;
+	private final RestTemplate restTemplate; 
 
 	@Autowired
 	public ClimaticController(RestTemplate restTemplate) {
