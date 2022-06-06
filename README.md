@@ -38,6 +38,7 @@ $ ng serve --ssl true --ssl-key localhost.key --ssl-cert localhost.crt
 
 And so you can access the application by entering the following url in the browser of your choice (Google Chrome, Microsoft Edge, Firefox...etc.): 
 * https://localhost:4200.
+* It is recommended that you install a browser extension like this to fix CORS errors [Allow CORS: Access-Control-Allow-Origin] (https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=es)
 The application has implemented the social login through Facebook and the test user is shown below:
 * Username: **dctocycfql_1653651542@tfbnw.net**
 * Password: **Password1234@**
